@@ -12,4 +12,5 @@ Gra 2D z widokiem z góry dla dwóch graczy. Projekt zaliczeniowy z programowani
 3. Skompiluj projekt: `g++ -std=c++17 src/main.cpp ...`
 
 ## Autorzy
-- (twoje imię)
+Antoni Hess
+Kasper Krzak
