@@ -1,0 +1,5 @@
+BattleArena.exe
+*.o
+*.obj
+build/
+.vscode/
