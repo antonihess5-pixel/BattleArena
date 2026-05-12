@@ -1,6 +1,6 @@
 # BattleArena 🎮
 
-Gra 2D z widokiem z góry dla dwóch graczy. Projekt zaliczeniowy z programowania obiektowego w C++.
+Gra 2D z widokiem z góry dla dwóch graczy.
 
 ## Technologie
 - C++17
