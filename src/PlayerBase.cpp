@@ -1,24 +1,30 @@
-#include "Player.h"
+#include "PlayerBase.h"
 
 // Konstruktor - inicjalizujemy wszystkie pola
-// Dwukropek po Player() to "lista inicjalizacyjna" -
+// Dwukropek po PlayerBase() to "lista inicjalizacyjna" -
 // inicjalizuje pola PRZED wejściem do ciała konstruktora
-Player::Player(float startX, float startY,
+PlayerBase::PlayerBase(float startX, float startY,
                sf::Color color,
                sf::Keyboard::Key upKey,
                sf::Keyboard::Key downKey,
                sf::Keyboard::Key leftKey,
                sf::Keyboard::Key rightKey,
-               sf::Keyboard::Key attackKey)
+               sf::Keyboard::Key attackKey,
+               int hp,
+               float speed,
+               int damage,
+               float attackRange)
     : m_upKey(upKey)
     , m_downKey(downKey)
     , m_leftKey(leftKey)
     , m_rightKey(rightKey)
     , m_attackKey(attackKey)
-    , m_speed(200.f)
-    , m_hp(100)
-    , m_maxHP(100)
-    , m_direction(Direction::Right) // domyślnie gracz patrzy w prawo
+    , m_speed(speed)             // teraz z parametru
+    , m_hp(hp)                   // teraz z parametru
+    , m_maxHP(hp)
+    , m_damage(damage)           // teraz z parametru
+    , m_attackRange(attackRange) // teraz z parametru
+    , m_direction(Direction::Right)
     , m_attacking(false)
     , m_attackTimer(0.f)
     , m_attackDuration(0.2f)     // atak trwa 0.2 sekundy
@@ -31,8 +37,8 @@ Player::Player(float startX, float startY,
     m_shape.setFillColor(color);
     m_shape.setPosition(startX, startY);
 
-    // Prostokąt ataku (mniejszy, pojawi się obok gracza)
-    m_attackShape.setSize(sf::Vector2f(30.f, 30.f));
+    // Prostokąt ataku - rozmiar zależy od zasięgu
+    m_attackShape.setSize(sf::Vector2f(attackRange, attackRange * 0.75f));
     m_attackShape.setFillColor(sf::Color(255, 255, 0, 180)); // żółty półprzezroczysty
     m_attackShape.setPosition(-100.f, -100.f); // schowany poza ekranem
 
@@ -45,7 +51,7 @@ Player::Player(float startX, float startY,
     m_hpBarFill.setFillColor(sf::Color::Green);
 }
 
-void Player::update(float deltaTime, const sf::Vector2u& windowSize)
+void PlayerBase::update(float deltaTime, const sf::Vector2u& windowSize)
 {
     // --- RUCH ---
     // deltaTime to czas który minął od ostatniej klatki
@@ -104,7 +110,7 @@ void Player::update(float deltaTime, const sf::Vector2u& windowSize)
         m_hpBarFill.setFillColor(sf::Color::Red);
 }
 
-void Player::updateAttack(float deltaTime)
+void PlayerBase::updateAttack(float deltaTime)
 {
     // Odliczaj cooldown między atakami
     if (m_attackCooldownTimer > 0.f)
@@ -127,25 +133,21 @@ void Player::updateAttack(float deltaTime)
         // Pozycja ataku zależy od kierunku gracza
         sf::Vector2f pos = m_shape.getPosition();
         sf::Vector2f attackPos;
+        float range = m_attackShape.getSize().x;
 
         // Przesuwamy prostokąt ataku w kierunku w którym patrzy gracz
-        // 45.f to odstęp od gracza - tyle żeby atak był tuż obok
         switch (m_direction)
         {
             case Direction::Up:
-                // Atak pojawia się nad graczem
-                attackPos = { pos.x + 5.f, pos.y - 35.f };
+                attackPos = { pos.x + 5.f, pos.y - range };
                 break;
             case Direction::Down:
-                // Atak pojawia się pod graczem
                 attackPos = { pos.x + 5.f, pos.y + 45.f };
                 break;
             case Direction::Left:
-                // Atak pojawia się po lewej stronie
-                attackPos = { pos.x - 35.f, pos.y + 5.f };
+                attackPos = { pos.x - range, pos.y + 5.f };
                 break;
             case Direction::Right:
-                // Atak pojawia się po prawej stronie
                 attackPos = { pos.x + 45.f, pos.y + 5.f };
                 break;
         }
@@ -163,7 +165,7 @@ void Player::updateAttack(float deltaTime)
     }
 }
 
-void Player::clampToWindow(const sf::Vector2u& windowSize)
+void PlayerBase::clampToWindow(const sf::Vector2u& windowSize)
 {
     sf::Vector2f pos = m_shape.getPosition();
     sf::Vector2f size = m_shape.getSize();
@@ -183,7 +185,7 @@ void Player::clampToWindow(const sf::Vector2u& windowSize)
     m_shape.setPosition(pos);
 }
 
-void Player::draw(sf::RenderWindow& window)
+void PlayerBase::draw(sf::RenderWindow& window)
 {
     window.draw(m_shape);
     window.draw(m_hpBar);
@@ -195,44 +197,27 @@ void Player::draw(sf::RenderWindow& window)
 }
 
 // --- Gettery ---
-sf::FloatRect Player::getBounds() const
+sf::FloatRect PlayerBase::getBounds() const
 {
     return m_shape.getGlobalBounds();
 }
 
-sf::FloatRect Player::getAttackBounds() const
+sf::FloatRect PlayerBase::getAttackBounds() const
 {
     return m_attackShape.getGlobalBounds();
 }
 
-bool Player::isAttacking() const
-{
-    return m_attacking;
-}
+bool PlayerBase::isAttacking() const { return m_attacking; }
+int PlayerBase::getHP() const { return m_hp; }
+int PlayerBase::getMaxHP() const { return m_maxHP; }
+bool PlayerBase::isAlive() const { return m_hp > 0; }
+bool PlayerBase::hasDealtHit() const { return m_hitDealt; }
+void PlayerBase::setHitDealt(bool value) { m_hitDealt = value; }
+int PlayerBase::getDamage() const { return m_damage; }
 
-int Player::getHP() const
-{
-    return m_hp;
-}
-
-bool Player::isAlive() const
-{
-    return m_hp > 0;
-}
-
-void Player::takeDamage(int amount)
+void PlayerBase::takeDamage(int amount)
 {
     m_hp -= amount;
     if (m_hp < 0)
         m_hp = 0;
-}
-
-bool Player::hasDealtHit() const
-{
-    return m_hitDealt;
-}
-
-void Player::setHitDealt(bool value)
-{
-    m_hitDealt = value;
 }

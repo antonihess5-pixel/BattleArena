@@ -9,7 +9,8 @@
  */
 enum class GameState
 {
-    Menu,       // ekran startowy
-    Playing,    // rozgrywka
-    GameOver    // ekran końca gry
+    Menu,            // ekran startowy
+    CharacterSelect, // ekran wyboru postaci
+    Playing,         // rozgrywka
+    GameOver         // ekran końca gry
 };
