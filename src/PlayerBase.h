@@ -1,16 +1,16 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <memory>
 #include "Direction.h"
+#include "Projectile.h"
 
 /**
  * @brief Bazowa klasa gracza - zawiera wspólną logikę dla wszystkich klas postaci
  * 
  * "virtual" przy metodach oznacza że klasy pochodne (Warrior, Mage)
  * mogą je nadpisać swoją własną implementacją.
- * 
- * "= 0" oznacza metodę czysto wirtualną - klasa bazowa nie ma implementacji,
- * KAŻDA klasa pochodna MUSI ją zaimplementować.
  */
 class PlayerBase
 {
@@ -63,12 +63,14 @@ public:
     bool isAlive() const;                  // czy żyje?
     bool hasDealtHit() const;
     void setHitDealt(bool value);
+    int getDamage() const;
+
+    // Zwraca wektor aktywnych pocisków tego gracza
+    // Game używa tego do sprawdzania kolizji
+    std::vector<std::unique_ptr<Projectile>>& getProjectiles();
 
     // Zadaj obrażenia graczowi
     void takeDamage(int amount);
-
-    // Zwraca ile obrażeń zadaje ten gracz
-    int getDamage() const;
 
 protected:
     // protected = dostępne dla klas pochodnych (Warrior, Mage)
@@ -77,7 +79,7 @@ protected:
     void clampToWindow(const sf::Vector2u& windowSize);
 
     sf::RectangleShape m_shape;       // prostokąt gracza
-    sf::RectangleShape m_attackShape; // prostokąt ataku
+    sf::RectangleShape m_attackShape; // prostokąt ataku (używany przez Warrior)
     sf::RectangleShape m_hpBar;       // pasek HP (tło)
     sf::RectangleShape m_hpBarFill;   // pasek HP (wypełnienie)
 
@@ -93,7 +95,7 @@ protected:
     // HP
     int m_hp;
     int m_maxHP;
-    int m_damage;       // obrażenia ataku
+    int m_damage;        // obrażenia ataku
     float m_attackRange; // zasięg ataku w pikselach
 
     // Kierunek w którym patrzy gracz
@@ -107,4 +109,8 @@ protected:
     float m_attackCooldown;      // czas odnowienia ataku
     float m_attackCooldownTimer; // licznik odnowienia
     bool m_hitDealt;             // czy już zadał obrażenia w tym ataku
+
+    // Pociski - każdy gracz może mieć własne (mag używa, wojownik nie)
+    // unique_ptr automatycznie zwalnia pamięć gdy pocisk jest usuwany
+    std::vector<std::unique_ptr<Projectile>> m_projectiles;
 };

@@ -196,6 +196,11 @@ void PlayerBase::draw(sf::RenderWindow& window)
         window.draw(m_attackShape);
 }
 
+std::vector<std::unique_ptr<Projectile>>& PlayerBase::getProjectiles()
+{
+    return m_projectiles;
+}
+
 // --- Gettery ---
 sf::FloatRect PlayerBase::getBounds() const
 {

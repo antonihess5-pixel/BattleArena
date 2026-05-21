@@ -12,6 +12,7 @@
                 "src/PlayerBase.cpp",
                 "src/Warrior.cpp",
                 "src/Mage.cpp",
+                "src/Projectile.cpp",
                 "-IC:/BattleArena/SFML/include",
                 "-LC:/BattleArena/SFML/lib",
                 "-LC:/SFML-src/extlibs/libs-mingw/x64",

@@ -158,7 +158,9 @@ void Game::update(float deltaTime)
 
 void Game::checkCombat()
 {
-    // Czy gracz 1 trafił gracza 2?
+    // --- ATAK BEZPOŚREDNI (Wojownik) ---
+
+    // Czy gracz 1 trafił gracza 2 atakiem bezpośrednim?
     // m_hitDealt zapewnia że jeden atak = jedne obrażenia
     if (m_player1->isAttacking() &&
         !m_player1->hasDealtHit() &&
@@ -168,13 +170,37 @@ void Game::checkCombat()
         m_player1->setHitDealt(true);
     }
 
-    // Czy gracz 2 trafił gracza 1?
+    // Czy gracz 2 trafił gracza 1 atakiem bezpośrednim?
     if (m_player2->isAttacking() &&
         !m_player2->hasDealtHit() &&
         m_player2->getAttackBounds().intersects(m_player1->getBounds()))
     {
         m_player1->takeDamage(m_player2->getDamage());
         m_player2->setHitDealt(true);
+    }
+
+    // --- POCISKI ---
+
+    // Sprawdź pociski gracza 1 czy trafił gracza 2
+    for (auto& projectile : m_player1->getProjectiles())
+    {
+        if (projectile->isActive() &&
+            projectile->getBounds().intersects(m_player2->getBounds()))
+        {
+            m_player2->takeDamage(projectile->getDamage());
+            projectile->deactivate(); // pocisk znika po trafieniu
+        }
+    }
+
+    // Sprawdź pociski gracza 2 czy trafił gracza 1
+    for (auto& projectile : m_player2->getProjectiles())
+    {
+        if (projectile->isActive() &&
+            projectile->getBounds().intersects(m_player1->getBounds()))
+        {
+            m_player1->takeDamage(projectile->getDamage());
+            projectile->deactivate(); // pocisk znika po trafieniu
+        }
     }
 }
 
