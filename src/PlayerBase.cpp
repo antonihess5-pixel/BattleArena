@@ -1,8 +1,12 @@
-#include "PlayerBase.h"
+/**
+ * @file PlayerBase.cpp
+ * @brief Implementacja klasy PlayerBase
+ */
 
-// Konstruktor - inicjalizujemy wszystkie pola
-// Dwukropek po PlayerBase() to "lista inicjalizacyjna" -
-// inicjalizuje pola PRZED wejściem do ciała konstruktora
+#include "PlayerBase.h"
+#include "Wall.h"
+#include <algorithm>
+
 PlayerBase::PlayerBase(float startX, float startY,
                sf::Color color,
                sf::Keyboard::Key upKey,
@@ -19,28 +23,28 @@ PlayerBase::PlayerBase(float startX, float startY,
     , m_leftKey(leftKey)
     , m_rightKey(rightKey)
     , m_attackKey(attackKey)
-    , m_speed(speed)             // teraz z parametru
-    , m_hp(hp)                   // teraz z parametru
+    , m_speed(speed)
+    , m_hp(hp)
     , m_maxHP(hp)
-    , m_damage(damage)           // teraz z parametru
-    , m_attackRange(attackRange) // teraz z parametru
+    , m_damage(damage)
+    , m_attackRange(attackRange)
     , m_direction(Direction::Right)
     , m_attacking(false)
     , m_attackTimer(0.f)
-    , m_attackDuration(0.2f)     // atak trwa 0.2 sekundy
-    , m_attackCooldown(0.5f)     // cooldown 0.5 sekundy
+    , m_attackDuration(0.2f)     // atak wręcz trwa 0.2 sekundy
+    , m_attackCooldown(0.5f)     // cooldown między atakami
     , m_attackCooldownTimer(0.f)
     , m_hitDealt(false)
+    , m_attackKeyPressed(false)
 {
-    // Ustawiamy wygląd prostokąta gracza
-    m_shape.setSize(sf::Vector2f(40.f, 40.f));  // 40x40 pikseli
+    m_shape.setSize(sf::Vector2f(40.f, 40.f));
     m_shape.setFillColor(color);
     m_shape.setPosition(startX, startY);
 
-    // Prostokąt ataku - rozmiar zależy od zasięgu
+    // Hitbox ataku wręcz - rozmiar zależy od zasięgu klasy
     m_attackShape.setSize(sf::Vector2f(attackRange, attackRange * 0.75f));
-    m_attackShape.setFillColor(sf::Color(255, 255, 0, 180)); // żółty półprzezroczysty
-    m_attackShape.setPosition(-100.f, -100.f); // schowany poza ekranem
+    m_attackShape.setFillColor(sf::Color(255, 255, 0, 180));
+    m_attackShape.setPosition(-1000.f, -1000.f); // schowany poza ekranem
 
     // Pasek HP - tło (ciemnoczerwone)
     m_hpBar.setSize(sf::Vector2f(40.f, 6.f));
@@ -54,12 +58,9 @@ PlayerBase::PlayerBase(float startX, float startY,
 void PlayerBase::update(float deltaTime, const sf::Vector2u& windowSize)
 {
     // --- RUCH ---
-    // deltaTime to czas który minął od ostatniej klatki
-    // Dzięki temu ruch jest płynny niezależnie od FPS
+    // deltaTime zapewnia płynny ruch niezależnie od liczby klatek na sekundę
     sf::Vector2f movement(0.f, 0.f);
 
-    // Sprawdzamy czy dany klawisz jest wciśnięty
-    // i zapamiętujemy kierunek ostatniego ruchu
     if (sf::Keyboard::isKeyPressed(m_upKey))
     {
         movement.y -= m_speed * deltaTime;
@@ -81,45 +82,38 @@ void PlayerBase::update(float deltaTime, const sf::Vector2u& windowSize)
         m_direction = Direction::Right;
     }
 
-    // Przesuwamy prostokąt o obliczony wektor ruchu
     m_shape.move(movement);
-
-    // --- GRANICE EKRANU ---
     clampToWindow(windowSize);
-
-    // --- ATAK ---
     updateAttack(deltaTime);
 
-    // --- PASEK HP ---
+    // --- AKTUALIZACJA PASKA HP ---
     sf::Vector2f pos = m_shape.getPosition();
-
-    // Pasek HP nad głową gracza
     m_hpBar.setPosition(pos.x, pos.y - 10.f);
     m_hpBarFill.setPosition(pos.x, pos.y - 10.f);
 
-    // Szerokość paska zależy od aktualnego HP
     float hpPercent = static_cast<float>(m_hp) / m_maxHP;
     m_hpBarFill.setSize(sf::Vector2f(40.f * hpPercent, 6.f));
 
-    // Kolor paska zmienia się wraz z HP
+    // Kolor paska zależy od pozostałego HP
     if (hpPercent > 0.5f)
         m_hpBarFill.setFillColor(sf::Color::Green);
     else if (hpPercent > 0.25f)
         m_hpBarFill.setFillColor(sf::Color::Yellow);
     else
         m_hpBarFill.setFillColor(sf::Color::Red);
+
+    // Reset flagi ataku - musi być na końcu klatki
+    m_attackKeyPressed = false;
 }
 
 void PlayerBase::updateAttack(float deltaTime)
 {
-    // Odliczaj cooldown między atakami
+    // Odliczanie cooldownu między atakami
     if (m_attackCooldownTimer > 0.f)
         m_attackCooldownTimer -= deltaTime;
 
-    // Wciśnięto klawisz ataku i cooldown minął
-    if (sf::Keyboard::isKeyPressed(m_attackKey) &&
-        !m_attacking &&
-        m_attackCooldownTimer <= 0.f)
+    // Rozpoczęcie ataku gdy klawisz wciśnięty i cooldown minął
+    if (m_attackKeyPressed && !m_attacking && m_attackCooldownTimer <= 0.f)
     {
         m_attacking = true;
         m_attackTimer = m_attackDuration;
@@ -130,12 +124,11 @@ void PlayerBase::updateAttack(float deltaTime)
     {
         m_attackTimer -= deltaTime;
 
-        // Pozycja ataku zależy od kierunku gracza
+        // Pozycjonowanie hitboxa w kierunku patrzenia gracza
         sf::Vector2f pos = m_shape.getPosition();
         sf::Vector2f attackPos;
         float range = m_attackShape.getSize().x;
 
-        // Przesuwamy prostokąt ataku w kierunku w którym patrzy gracz
         switch (m_direction)
         {
             case Direction::Up:
@@ -154,75 +147,111 @@ void PlayerBase::updateAttack(float deltaTime)
 
         m_attackShape.setPosition(attackPos);
 
-        // Atak się skończył
+        // Koniec animacji ataku
         if (m_attackTimer <= 0.f)
         {
             m_attacking = false;
             m_attackCooldownTimer = m_attackCooldown;
-            // Schowaj prostokąt ataku poza ekranem
-            m_attackShape.setPosition(-100.f, -100.f);
+            m_attackShape.setPosition(-1000.f, -1000.f); // schowaj hitbox
         }
     }
 }
 
 void PlayerBase::clampToWindow(const sf::Vector2u& windowSize)
 {
-    sf::Vector2f pos = m_shape.getPosition();
+    sf::Vector2f pos  = m_shape.getPosition();
     sf::Vector2f size = m_shape.getSize();
 
-    // Nie wychodź poza lewą i prawą krawędź
-    if (pos.x < 0.f)
-        pos.x = 0.f;
-    if (pos.x + size.x > windowSize.x)
-        pos.x = windowSize.x - size.x;
-
-    // Nie wychodź poza górną i dolną krawędź
-    if (pos.y < 0.f)
-        pos.y = 0.f;
-    if (pos.y + size.y > windowSize.y)
-        pos.y = windowSize.y - size.y;
+    // Ograniczenie do granic okna w każdej osi
+    if (pos.x < 0.f)                          pos.x = 0.f;
+    if (pos.x + size.x > windowSize.x)        pos.x = windowSize.x - size.x;
+    if (pos.y < 0.f)                           pos.y = 0.f;
+    if (pos.y + size.y > windowSize.y)         pos.y = windowSize.y - size.y;
 
     m_shape.setPosition(pos);
 }
 
-void PlayerBase::draw(sf::RenderWindow& window)
+void PlayerBase::drawBase(sf::RenderWindow& window)
 {
     window.draw(m_shape);
     window.draw(m_hpBar);
     window.draw(m_hpBarFill);
 
-    // Prostokąt ataku rysujemy tylko gdy gracz atakuje
+    // Hitbox ataku wręcz widoczny tylko podczas animacji
     if (m_attacking)
         window.draw(m_attackShape);
 }
+
+void PlayerBase::checkWallCollisions(
+    const std::vector<std::unique_ptr<Wall>>& walls)
+{
+    for (auto& wall : walls)
+    {
+        sf::FloatRect playerBounds = m_shape.getGlobalBounds();
+        sf::FloatRect wallBounds   = wall->getBounds();
+
+        if (playerBounds.intersects(wallBounds))
+        {
+            // Obliczamy nakładanie się w każdej osi
+            float overlapLeft   = playerBounds.left + playerBounds.width  - wallBounds.left;
+            float overlapRight  = wallBounds.left   + wallBounds.width    - playerBounds.left;
+            float overlapTop    = playerBounds.top  + playerBounds.height - wallBounds.top;
+            float overlapBottom = wallBounds.top    + wallBounds.height   - playerBounds.top;
+
+            float minOverlapX = std::min(overlapLeft,  overlapRight);
+            float minOverlapY = std::min(overlapTop,   overlapBottom);
+
+            // Cofamy gracza w kierunku najmniejszego nakładania (AABB resolution)
+            if (minOverlapX < minOverlapY)
+            {
+                if (overlapLeft < overlapRight)
+                    m_shape.move(-overlapLeft, 0.f);
+                else
+                    m_shape.move(overlapRight, 0.f);
+            }
+            else
+            {
+                if (overlapTop < overlapBottom)
+                    m_shape.move(0.f, -overlapTop);
+                else
+                    m_shape.move(0.f, overlapBottom);
+            }
+        }
+    }
+}
+
+void PlayerBase::onAttackKeyPressed(sf::Keyboard::Key key)
+{
+    // Ustawiamy flagę tylko jeśli to nasz klawisz ataku
+    if (key == m_attackKey)
+        m_attackKeyPressed = true;
+}
+
+// --- Implementacje getterów ---
+sf::FloatRect PlayerBase::getBounds() const    { return m_shape.getGlobalBounds();       }
+sf::FloatRect PlayerBase::getAttackBounds() const { return m_attackShape.getGlobalBounds(); }
+bool          PlayerBase::isAttacking() const  { return m_attacking;                     }
+int           PlayerBase::getHP() const        { return m_hp;                            }
+int           PlayerBase::getMaxHP() const     { return m_maxHP;                         }
+bool          PlayerBase::isAlive() const      { return m_hp > 0;                        }
+bool          PlayerBase::hasDealtHit() const  { return m_hitDealt;                      }
+void          PlayerBase::setHitDealt(bool v)  { m_hitDealt = v;                         }
+int           PlayerBase::getDamage() const    { return m_damage;                        }
 
 std::vector<std::unique_ptr<Projectile>>& PlayerBase::getProjectiles()
 {
     return m_projectiles;
 }
 
-// --- Gettery ---
-sf::FloatRect PlayerBase::getBounds() const
-{
-    return m_shape.getGlobalBounds();
-}
-
-sf::FloatRect PlayerBase::getAttackBounds() const
-{
-    return m_attackShape.getGlobalBounds();
-}
-
-bool PlayerBase::isAttacking() const { return m_attacking; }
-int PlayerBase::getHP() const { return m_hp; }
-int PlayerBase::getMaxHP() const { return m_maxHP; }
-bool PlayerBase::isAlive() const { return m_hp > 0; }
-bool PlayerBase::hasDealtHit() const { return m_hitDealt; }
-void PlayerBase::setHitDealt(bool value) { m_hitDealt = value; }
-int PlayerBase::getDamage() const { return m_damage; }
-
 void PlayerBase::takeDamage(int amount)
 {
     m_hp -= amount;
-    if (m_hp < 0)
-        m_hp = 0;
+    if (m_hp < 0) m_hp = 0;
+}
+
+void PlayerBase::heal(int amount)
+{
+    m_hp += amount;
+    if (m_hp > m_maxHP)
+        m_hp = m_maxHP;
 }

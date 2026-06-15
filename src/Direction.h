@@ -1,15 +1,20 @@
+/**
+ * @file Direction.h
+ * @brief Definicja wyliczenia kierunków ruchu gracza
+ */
+
 #pragma once
 
 /**
  * @brief Kierunek w którym patrzy gracz
- * 
- * Używamy enum class zamiast liczb dla czytelności kodu.
- * Kierunek zmienia się gdy gracz wciska klawisz ruchu.
+ *
+ * Używane do określenia kierunku ruchu oraz kierunku ataku.
+ * Wartość jest aktualizowana przy każdym wciśnięciu klawisza ruchu.
  */
 enum class Direction
 {
-    Up,
-    Down,
-    Left,
-    Right
+    Up,    ///< Kierunek: góra
+    Down,  ///< Kierunek: dół
+    Left,  ///< Kierunek: lewo
+    Right  ///< Kierunek: prawo
 };

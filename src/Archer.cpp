@@ -1,37 +1,41 @@
 /**
- * @file Mage.cpp
- * @brief Implementacja klasy Mage
+ * @file Archer.cpp
+ * @brief Implementacja klasy Archer
  */
 
-#include "Mage.h"
+#include "Archer.h"
 
-Mage::Mage(float startX, float startY,
-           sf::Keyboard::Key upKey,
-           sf::Keyboard::Key downKey,
-           sf::Keyboard::Key leftKey,
-           sf::Keyboard::Key rightKey,
-           sf::Keyboard::Key attackKey)
+// Strzała łucznika leci wolniej niż pocisk maga (400px/s)
+// ale zadaje więcej obrażeń i jest większa (łatwiej trafić)
+const float Archer::ARROW_SPEED = 280.f;
+
+Archer::Archer(float startX, float startY,
+               sf::Keyboard::Key upKey,
+               sf::Keyboard::Key downKey,
+               sf::Keyboard::Key leftKey,
+               sf::Keyboard::Key rightKey,
+               sf::Keyboard::Key attackKey)
     : PlayerBase(startX, startY,
-                 sf::Color(180, 50, 255), // fioletowy
+                 sf::Color(50, 200, 80), // zielony
                  upKey, downKey, leftKey, rightKey, attackKey,
-                 80,    // HP - najniższe
-                 250.f, // prędkość - najwyższa
-                 15,    // obrażenia - najniższe
-                 0.f)   // zasięg wręcz nieużywany - mag strzela
+                 110,   // HP - średnie
+                 200.f, // prędkość - średnia
+                 20,    // obrażenia - średnie
+                 0.f)   // zasięg wręcz nieużywany - łucznik strzela
 {
-    // Mag jest smuklejszy od wojownika
-    m_shape.setSize(sf::Vector2f(30.f, 35.f));
+    // Łucznik jest smuklejszy od wojownika
+    m_shape.setSize(sf::Vector2f(35.f, 40.f));
     m_shape.setOutlineThickness(2.f);
-    m_shape.setOutlineColor(sf::Color(220, 150, 255));
+    m_shape.setOutlineColor(sf::Color(20, 120, 40));
 
-    // Schowaj hitbox ataku wręcz - mag go nie używa
+    // Schowaj hitbox ataku wręcz - łucznik go nie używa
     m_attackShape.setPosition(-1000.f, -1000.f);
 
-    // Mag strzela szybciej niż warrior atakuje
-    m_attackCooldown = 0.3f;
+    // Łucznik strzela wolniej niż mag ze względu na balans
+    m_attackCooldown = 0.6f;
 }
 
-void Mage::update(float deltaTime, const sf::Vector2u& windowSize)
+void Archer::update(float deltaTime, const sf::Vector2u& windowSize)
 {
     // --- RUCH (taki sam jak w PlayerBase) ---
     sf::Vector2f movement(0.f, 0.f);
@@ -60,22 +64,26 @@ void Mage::update(float deltaTime, const sf::Vector2u& windowSize)
     m_shape.move(movement);
     clampToWindow(windowSize);
 
-    // --- SYSTEM POCISKÓW ---
+    // --- SYSTEM STRZAŁ ---
     if (m_attackCooldownTimer > 0.f)
         m_attackCooldownTimer -= deltaTime;
 
     // Strzelanie event-based przez flagę m_attackKeyPressed
     if (m_attackKeyPressed && m_attackCooldownTimer <= 0.f)
     {
-        // Pocisk startuje ze środka postaci maga
+        // Strzała startuje ze środka postaci łucznika
         sf::Vector2f pos = m_shape.getPosition();
         float startX = pos.x + m_shape.getSize().x / 2.f;
         float startY = pos.y + m_shape.getSize().y / 2.f;
 
-        // Dodaj nowy pocisk do wektora (domyślna prędkość 400px/s)
+        // isArrow=true = zielona kreska zamiast fioletowego kółka
         m_projectiles.push_back(
             std::make_unique<Projectile>(
-                startX, startY, m_direction, m_damage)
+                startX, startY,
+                m_direction,
+                m_damage,
+                ARROW_SPEED,
+                true) // true = strzała łucznika
         );
 
         m_attackCooldownTimer = m_attackCooldown;
@@ -87,11 +95,11 @@ void Mage::update(float deltaTime, const sf::Vector2u& windowSize)
         m_attacking = false;
     }
 
-    // Aktualizuj wszystkie aktywne pociski
+    // Aktualizuj wszystkie aktywne strzały
     for (auto& p : m_projectiles)
         p->update(deltaTime);
 
-    // Usuń nieaktywne pociski (trafiły lub wyleciały poza ekran)
+    // Usuń nieaktywne strzały
     m_projectiles.erase(
         std::remove_if(m_projectiles.begin(), m_projectiles.end(),
             [](const std::unique_ptr<Projectile>& p)
@@ -118,24 +126,12 @@ void Mage::update(float deltaTime, const sf::Vector2u& windowSize)
     m_attackKeyPressed = false;
 }
 
-void Mage::draw(sf::RenderWindow& window)
+void Archer::draw(sf::RenderWindow& window)
 {
     // Rysuj wspólne elementy (kształt, HP bar)
     drawBase(window);
 
-    // Efekt aury magicznej podczas ataku
-    if (m_attacking)
-    {
-        sf::CircleShape aura(25.f);
-        aura.setFillColor(sf::Color(180, 50, 255, 40)); // bardzo przezroczysty
-        aura.setPosition(
-            m_shape.getPosition().x - 7.f,
-            m_shape.getPosition().y - 7.f
-        );
-        window.draw(aura);
-    }
-
-    // Rysuj wszystkie aktywne pociski
+    // Rysuj wszystkie aktywne strzały
     for (auto& p : m_projectiles)
         p->draw(window);
 }

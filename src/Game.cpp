@@ -1,31 +1,44 @@
+/**
+ * @file Game.cpp
+ * @brief Implementacja klasy Game
+ */
+
 #include "Game.h"
 #include "Warrior.h"
 #include "Mage.h"
+#include "Archer.h"
+#include <iostream>
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
-// Konstruktor - tu inicjalizujemy wszystkie pola
-// Dwukropek po Game() to "lista inicjalizacyjna" -
-// inicjalizuje pola PRZED wejściem do ciała konstruktora
 Game::Game()
-    : m_window(sf::VideoMode(800, 600), "BattleArena")
+    : m_window(sf::VideoMode::getDesktopMode(),
+               "BattleArena",
+               sf::Style::Fullscreen)
     , m_state(GameState::Menu)
-    , m_player1Choice(0)
-    , m_player2Choice(0)
-    , m_player1Ready(false)
-    , m_player2Ready(false)
+    , m_playerChoices(2, 0)
+    , m_playerReady(2, false)
+    , m_healthPackTimer(0.f)
+    , m_healthPackInterval(8.f)
 {
-    // Ładujemy czcionkę systemową
+    // Ładujemy czcionkę systemową dostępną na każdym Windowsie
     m_font.loadFromFile("C:/Windows/Fonts/arial.ttf");
 
-    // Tworzymy domyślnych graczy (podmienią się po wyborze)
-    m_player1 = createPlayer(0, 100.f, 280.f,
-                             sf::Keyboard::W, sf::Keyboard::S,
-                             sf::Keyboard::A, sf::Keyboard::D,
-                             sf::Keyboard::F);
+    // Tworzymy domyślnych graczy - zostaną podmienieni po wyborze postaci
+    m_players.push_back(createPlayer(0,
+        m_window.getSize().x * 0.35f,
+        m_window.getSize().y * 0.5f,
+        sf::Keyboard::W, sf::Keyboard::S,
+        sf::Keyboard::A, sf::Keyboard::D,
+        sf::Keyboard::F));
 
-    m_player2 = createPlayer(0, 660.f, 280.f,
-                             sf::Keyboard::Up, sf::Keyboard::Down,
-                             sf::Keyboard::Left, sf::Keyboard::Right,
-                             sf::Keyboard::Numpad0);
+    m_players.push_back(createPlayer(0,
+        m_window.getSize().x * 0.65f,
+        m_window.getSize().y * 0.5f,
+        sf::Keyboard::Up, sf::Keyboard::Down,
+        sf::Keyboard::Left, sf::Keyboard::Right,
+        sf::Keyboard::RControl));
 }
 
 std::unique_ptr<PlayerBase> Game::createPlayer(
@@ -37,22 +50,58 @@ std::unique_ptr<PlayerBase> Game::createPlayer(
     sf::Keyboard::Key rightKey,
     sf::Keyboard::Key attackKey)
 {
-    // Tworzymy odpowiednią klasę postaci
-    // make_unique tworzy obiekt i zwraca unique_ptr
+    // Fabryka postaci - polimorfizm przez wskaźnik do klasy bazowej
     if (characterIndex == 0)
-        return std::make_unique<Warrior>(startX, startY,
-               upKey, downKey, leftKey, rightKey, attackKey);
+        return std::make_unique<Warrior>(
+            startX, startY,
+            upKey, downKey, leftKey, rightKey, attackKey);
+    else if (characterIndex == 1)
+        return std::make_unique<Mage>(
+            startX, startY,
+            upKey, downKey, leftKey, rightKey, attackKey);
     else
-        return std::make_unique<Mage>(startX, startY,
-               upKey, downKey, leftKey, rightKey, attackKey);
+        return std::make_unique<Archer>(
+            startX, startY,
+            upKey, downKey, leftKey, rightKey, attackKey);
+    srand(static_cast<unsigned>(time(nullptr)));
+}
+
+void Game::createBorderWalls()
+{
+    float W = m_window.getSize().x;
+    float H = m_window.getSize().y;
+
+    // Parametry areny identyczne jak w WallPlacer
+    float arenaSize = std::min(W, H) * 0.75f;
+    float cellSize  = arenaSize / 16.f;
+    float offsetX   = (W - arenaSize) / 2.f;
+    float offsetY   = (H - arenaSize) / 2.f;
+
+    // Górna i dolna krawędź areny (16 ścian poziomych każda)
+    for (int i = 0; i < 16; i++)
+    {
+        m_walls.push_back(std::make_unique<Wall>(
+            i, 0, i + 1, 0, cellSize, offsetX, offsetY));
+        m_walls.push_back(std::make_unique<Wall>(
+            i, 16, i + 1, 16, cellSize, offsetX, offsetY));
+    }
+
+    // Lewa i prawa krawędź areny (16 ścian pionowych każda)
+    for (int i = 0; i < 16; i++)
+    {
+        m_walls.push_back(std::make_unique<Wall>(
+            0, i, 0, i + 1, cellSize, offsetX, offsetY));
+        m_walls.push_back(std::make_unique<Wall>(
+            16, i, 16, i + 1, cellSize, offsetX, offsetY));
+    }
 }
 
 void Game::run()
 {
-    // Pętla gry - działa dopóki okno jest otwarte
+    // Główna pętla gry - działa dopóki okno jest otwarte
     while (m_window.isOpen())
     {
-        // deltaTime - czas między klatkami w sekundach
+        // Mierzymy czas między klatkami dla płynnej animacji
         float deltaTime = m_clock.restart().asSeconds();
 
         processEvents();
@@ -71,7 +120,7 @@ void Game::processEvents()
 
         if (event.type == sf::Event::KeyPressed)
         {
-            // Escape zamyka grę
+            // Escape zawsze zamyka grę niezależnie od stanu
             if (event.key.code == sf::Keyboard::Escape)
                 m_window.close();
 
@@ -85,44 +134,72 @@ void Game::processEvents()
             // --- OBSŁUGA WYBORU POSTACI ---
             else if (m_state == GameState::CharacterSelect)
             {
-                // Gracz 1 wybiera klawiszami A/D
-                if (!m_player1Ready)
+                // Gracz 1: A/D = wybór, F = zatwierdź
+                if (!m_playerReady[0])
                 {
                     if (event.key.code == sf::Keyboard::A)
-                        m_player1Choice = 0; // Warrior
+                        // (choice+2)%3 = cofnięcie bez ujemnych indeksów
+                        m_playerChoices[0] = (m_playerChoices[0] + 2) % 3;
                     if (event.key.code == sf::Keyboard::D)
-                        m_player1Choice = 1; // Mage
+                        m_playerChoices[0] = (m_playerChoices[0] + 1) % 3;
                     if (event.key.code == sf::Keyboard::F)
-                        m_player1Ready = true;
+                        m_playerReady[0] = true;
                 }
 
-                // Gracz 2 wybiera strzałkami
-                if (!m_player2Ready)
+                // Gracz 2: strzałki = wybór, Numpad0 = zatwierdź
+                if (!m_playerReady[1])
                 {
                     if (event.key.code == sf::Keyboard::Left)
-                        m_player2Choice = 0; // Warrior
+                        m_playerChoices[1] = (m_playerChoices[1] + 2) % 3;
                     if (event.key.code == sf::Keyboard::Right)
-                        m_player2Choice = 1; // Mage
+                        m_playerChoices[1] = (m_playerChoices[1] + 1) % 3;
                     if (event.key.code == sf::Keyboard::Numpad0)
-                        m_player2Ready = true;
+                        m_playerReady[1] = true;
                 }
 
-                // Obaj gotowi - startujemy!
-                if (m_player1Ready && m_player2Ready)
+                // Obaj gotowi - tworzymy graczy i przechodzimy do układania ścian
+                if (m_playerReady[0] && m_playerReady[1])
                 {
-                    // Tworzymy graczy z wybranymi klasami
-                    m_player1 = createPlayer(m_player1Choice,
-                                 100.f, 280.f,
-                                 sf::Keyboard::W, sf::Keyboard::S,
-                                 sf::Keyboard::A, sf::Keyboard::D,
-                                 sf::Keyboard::F);
+                    m_walls.clear();
+                    createBorderWalls();
 
-                    m_player2 = createPlayer(m_player2Choice,
-                                 660.f, 280.f,
-                                 sf::Keyboard::Up, sf::Keyboard::Down,
-                                 sf::Keyboard::Left, sf::Keyboard::Right,
-                                 sf::Keyboard::Numpad0);
+                    m_players.clear();
+                    m_players.push_back(createPlayer(
+                        m_playerChoices[0],
+                        m_window.getSize().x * 0.35f,
+                        m_window.getSize().y * 0.5f,
+                        sf::Keyboard::W, sf::Keyboard::S,
+                        sf::Keyboard::A, sf::Keyboard::D,
+                        sf::Keyboard::F));
 
+                    m_players.push_back(createPlayer(
+                        m_playerChoices[1],
+                        m_window.getSize().x * 0.65f,
+                        m_window.getSize().y * 0.5f,
+                        sf::Keyboard::Up, sf::Keyboard::Down,
+                        sf::Keyboard::Left, sf::Keyboard::Right,
+                        sf::Keyboard::RControl));
+
+                    m_wallPlacer = std::make_unique<WallPlacer>(
+                        10,  // ilość ścian do ułożenia
+                        m_window.getSize().x,
+                        m_window.getSize().y);
+
+                    m_state = GameState::WallPlacement;
+                }
+            }
+
+            // --- OBSŁUGA UKŁADANIA ŚCIAN ---
+            else if (m_state == GameState::WallPlacement)
+            {
+                // handleInput zwraca true gdy obaj gracze skończyli
+                if (m_wallPlacer->handleInput(event.key.code))
+                {
+                    // Przenosimy ściany z WallPlacer zachowując ściany brzegowe
+                    for (auto& wall : m_wallPlacer->getWalls())
+                        m_walls.push_back(std::make_unique<Wall>(*wall));
+
+                    m_wallPlacer.reset(); // zwalniamy WallPlacer
                     m_state = GameState::Playing;
                 }
             }
@@ -133,333 +210,440 @@ void Game::processEvents()
                 if (event.key.code == sf::Keyboard::Return)
                     resetGame();
             }
+
+            // Przekazujemy wciśnięcie klawisza do graczy (atak event-based)
+            if (m_state == GameState::Playing)
+            {
+                for (auto& player : m_players)
+                    player->onAttackKeyPressed(event.key.code);
+            }
         }
     }
 }
 
 void Game::update(float deltaTime)
 {
-    // Aktualizujemy logikę tylko podczas rozgrywki
     if (m_state != GameState::Playing)
         return;
 
     sf::Vector2u windowSize = m_window.getSize();
 
-    m_player1->update(deltaTime, windowSize);
-    m_player2->update(deltaTime, windowSize);
+    for (auto& player : m_players)
+        player->update(deltaTime, windowSize);
 
-    // Sprawdź czy ktoś kogoś trafił
+    for (auto& player : m_players)
+        player->checkWallCollisions(m_walls);
+
+    for (auto& player : m_players)
+        for (auto& projectile : player->getProjectiles())
+            projectile->checkWallCollisions(m_walls);
+
     checkCombat();
 
-    // Sprawdź czy ktoś przegrał
-    if (!m_player1->isAlive() || !m_player2->isAlive())
-        m_state = GameState::GameOver;
+    // Timer spawnu apteczek
+    m_healthPackTimer += deltaTime;
+    if (m_healthPackTimer >= m_healthPackInterval &&
+        m_healthPacks.size() < 3) // max 3 apteczki na raz
+    {
+        spawnHealthPack();
+        m_healthPackTimer = 0.f;
+    }
+
+    updateHealthPacks();
+
+    for (auto& player : m_players)
+    {
+        if (!player->isAlive())
+        {
+            m_state = GameState::GameOver;
+            return;
+        }
+    }
 }
 
 void Game::checkCombat()
 {
-    // --- ATAK BEZPOŚREDNI (Wojownik) ---
-
-    // Czy gracz 1 trafił gracza 2 atakiem bezpośrednim?
-    // m_hitDealt zapewnia że jeden atak = jedne obrażenia
-    if (m_player1->isAttacking() &&
-        !m_player1->hasDealtHit() &&
-        m_player1->getAttackBounds().intersects(m_player2->getBounds()))
+    // Sprawdzamy każdą parę graczy (i atakuje j)
+    for (int i = 0; i < (int)m_players.size(); i++)
     {
-        m_player2->takeDamage(m_player1->getDamage());
-        m_player1->setHitDealt(true);
-    }
-
-    // Czy gracz 2 trafił gracza 1 atakiem bezpośrednim?
-    if (m_player2->isAttacking() &&
-        !m_player2->hasDealtHit() &&
-        m_player2->getAttackBounds().intersects(m_player1->getBounds()))
-    {
-        m_player1->takeDamage(m_player2->getDamage());
-        m_player2->setHitDealt(true);
-    }
-
-    // --- POCISKI ---
-
-    // Sprawdź pociski gracza 1 czy trafił gracza 2
-    for (auto& projectile : m_player1->getProjectiles())
-    {
-        if (projectile->isActive() &&
-            projectile->getBounds().intersects(m_player2->getBounds()))
+        for (int j = 0; j < (int)m_players.size(); j++)
         {
-            m_player2->takeDamage(projectile->getDamage());
-            projectile->deactivate(); // pocisk znika po trafieniu
-        }
-    }
+            if (i == j) continue; // gracz nie może trafić sam siebie
 
-    // Sprawdź pociski gracza 2 czy trafił gracza 1
-    for (auto& projectile : m_player2->getProjectiles())
-    {
-        if (projectile->isActive() &&
-            projectile->getBounds().intersects(m_player1->getBounds()))
-        {
-            m_player1->takeDamage(projectile->getDamage());
-            projectile->deactivate(); // pocisk znika po trafieniu
+            // --- ATAK WRĘCZ (Warrior) ---
+            if (m_players[i]->isAttacking() &&
+                !m_players[i]->hasDealtHit() &&
+                m_players[i]->getAttackBounds()
+                    .intersects(m_players[j]->getBounds()))
+            {
+                m_players[j]->takeDamage(m_players[i]->getDamage());
+                m_players[i]->setHitDealt(true); // jeden atak = jedne obrażenia
+            }
+
+            // --- POCISKI (Mage i Archer) ---
+            // getProjectiles() zwraca pusty wektor dla Warriora
+            for (auto& projectile : m_players[i]->getProjectiles())
+            {
+                if (projectile->isActive() &&
+                    projectile->getBounds()
+                        .intersects(m_players[j]->getBounds()))
+                {
+                    m_players[j]->takeDamage(projectile->getDamage());
+                    projectile->deactivate(); // pocisk znika po trafieniu
+                }
+            }
         }
     }
 }
 
 void Game::resetGame()
 {
-    // Resetujemy wybory i stan
-    m_player1Choice = 0;
-    m_player2Choice = 0;
-    m_player1Ready = false;
-    m_player2Ready = false;
+    std::fill(m_playerChoices.begin(), m_playerChoices.end(), 0);
+    std::fill(m_playerReady.begin(),   m_playerReady.end(),   false);
+    m_walls.clear();
+    m_healthPacks.clear(); // wyczyść apteczki przy restarcie
+    m_healthPackTimer = 0.f;
     m_state = GameState::CharacterSelect;
 }
 
 void Game::render()
 {
-    // Czyścimy ekran na ciemnoszaro
+    // Ciemnoszare tło areny
     m_window.clear(sf::Color(50, 50, 50));
 
-    // Rysujemy różne rzeczy zależnie od stanu gry
     if (m_state == GameState::Menu)
         renderMenu();
     else if (m_state == GameState::CharacterSelect)
         renderCharacterSelect();
+    else if (m_state == GameState::WallPlacement)
+    {
+        // Podczas układania ścian rysujemy ściany brzegowe w tle
+        for (auto& wall : m_walls)
+            wall->draw(m_window);
+        m_wallPlacer->draw(m_window, m_font);
+    }
     else if (m_state == GameState::Playing)
     {
-        // Tu będziemy rysować obiekty gry
-        m_player1->draw(m_window);
-        m_player2->draw(m_window);
+        for (auto& wall : m_walls)
+            wall->draw(m_window);
+
+        // Rysuj apteczki pod graczami
+        for (auto& pack : m_healthPacks)
+            pack.draw(m_window);
+
+        for (auto& player : m_players)
+            player->draw(m_window);
     }
     else if (m_state == GameState::GameOver)
     {
-        // Rysujemy graczy w tle żeby było widać końcową pozycję
-        m_player1->draw(m_window);
-        m_player2->draw(m_window);
+        for (auto& wall : m_walls)
+            wall->draw(m_window);
+        for (auto& player : m_players)
+            player->draw(m_window);
         renderGameOver();
     }
 
-    // Wyświetlamy to co narysowaliśmy
     m_window.display();
 }
 
 void Game::renderMenu()
 {
-    // Tytuł gry
+    float W = m_window.getSize().x;
+    float H = m_window.getSize().y;
+
     sf::Text title;
     title.setFont(m_font);
     title.setString("BATTLE ARENA");
-    title.setCharacterSize(64);
+    title.setCharacterSize(80);
     title.setFillColor(sf::Color::White);
     title.setStyle(sf::Text::Bold);
+    sf::FloatRect tb = title.getLocalBounds();
+    title.setPosition((W - tb.width) / 2.f, H * 0.25f);
+    m_window.draw(title);
 
-    // Centrujemy tekst na ekranie
-    sf::FloatRect titleBounds = title.getLocalBounds();
-    title.setPosition((800.f - titleBounds.width) / 2.f, 150.f);
-
-    // Instrukcja sterowania - gracz 1
     sf::Text controls1;
     controls1.setFont(m_font);
-    controls1.setString("Gracz 1 (Niebieski): WSAD + F");
-    controls1.setCharacterSize(22);
+    controls1.setString("Gracz 1: WSAD + F (atak)");
+    controls1.setCharacterSize(26);
     controls1.setFillColor(sf::Color(100, 100, 255));
+    sf::FloatRect c1b = controls1.getLocalBounds();
+    controls1.setPosition((W - c1b.width) / 2.f, H * 0.5f);
+    m_window.draw(controls1);
 
-    sf::FloatRect c1Bounds = controls1.getLocalBounds();
-    controls1.setPosition((800.f - c1Bounds.width) / 2.f, 300.f);
-
-    // Instrukcja sterowania - gracz 2
     sf::Text controls2;
     controls2.setFont(m_font);
-    controls2.setString("Gracz 2 (Czerwony): Strzalki + Numpad 0");
-    controls2.setCharacterSize(22);
+    controls2.setString("Gracz 2: Strzalki + Prawy Ctrl (atak)");
+    controls2.setCharacterSize(26);
     controls2.setFillColor(sf::Color(255, 100, 100));
-
-    sf::FloatRect c2Bounds = controls2.getLocalBounds();
-    controls2.setPosition((800.f - c2Bounds.width) / 2.f, 340.f);
-
-    // Prompt żeby zacząć
-    sf::Text startPrompt;
-    startPrompt.setFont(m_font);
-    startPrompt.setString("Nacisnij ENTER aby zaczac");
-    startPrompt.setCharacterSize(28);
-    startPrompt.setFillColor(sf::Color::Yellow);
-
-    sf::FloatRect promptBounds = startPrompt.getLocalBounds();
-    startPrompt.setPosition((800.f - promptBounds.width) / 2.f, 450.f);
-
-    m_window.draw(title);
-    m_window.draw(controls1);
+    sf::FloatRect c2b = controls2.getLocalBounds();
+    controls2.setPosition((W - c2b.width) / 2.f, H * 0.57f);
     m_window.draw(controls2);
-    m_window.draw(startPrompt);
+
+    sf::Text prompt;
+    prompt.setFont(m_font);
+    prompt.setString("Nacisnij ENTER aby zaczac");
+    prompt.setCharacterSize(32);
+    prompt.setFillColor(sf::Color::Yellow);
+    sf::FloatRect pb = prompt.getLocalBounds();
+    prompt.setPosition((W - pb.width) / 2.f, H * 0.72f);
+    m_window.draw(prompt);
 }
 
 void Game::renderCharacterSelect()
 {
-    // Tytuł ekranu
+    float W = m_window.getSize().x;
+    float H = m_window.getSize().y;
+
     sf::Text title;
     title.setFont(m_font);
     title.setString("Wybierz postac!");
-    title.setCharacterSize(48);
+    title.setCharacterSize(60);
     title.setFillColor(sf::Color::White);
     title.setStyle(sf::Text::Bold);
     sf::FloatRect tb = title.getLocalBounds();
-    title.setPosition((800.f - tb.width) / 2.f, 30.f);
+    title.setPosition((W - tb.width) / 2.f, H * 0.05f);
     m_window.draw(title);
 
-    // Nazwy klas
-    std::string classNames[2] = { "Wojownik", "Mag" };
-    sf::Color classColors[2] = {
-        sf::Color(50, 100, 255),   // niebieski - wojownik
-        sf::Color(180, 50, 255)    // fioletowy - mag
+    std::string classNames[3] = { "Wojownik", "Mag", "Lucznik" };
+    sf::Color classColors[3] = {
+        sf::Color(50, 100, 255),
+        sf::Color(180, 50, 255),
+        sf::Color(50, 200, 80)
     };
-    std::string classStats[2] = {
-        "HP: 150 | Spd: 150 | Dmg: 25 | Zasieg: bliski",
-        "HP: 80  | Spd: 250 | Dmg: 15 | Zasieg: daleki"
+    std::string classStats[3] = {
+        "HP: 150\nSpd: 150\nDmg: 25\nZasieg: bliski",
+        "HP: 80\nSpd: 250\nDmg: 15\nZasieg: daleki",
+        "HP: 110\nSpd: 200\nDmg: 20\nZasieg: sredni"
     };
 
-    // Rysujemy karty wyboru dla gracza 1 (lewa strona)
-    for (int i = 0; i < 2; i++)
+    float cardW       = 180.f;
+    float cardH       = 280.f;
+    float cardSpacing = 220.f;
+
+    // --- KARTY GRACZA 1 (lewa strona ekranu) ---
+    float p1StartX = W * 0.05f;
+    float cardsY   = H * 0.2f;
+
+    for (int i = 0; i < 3; i++)
     {
-        float x = 50.f + i * 180.f;
-        float y = 150.f;
+        float x = p1StartX + i * cardSpacing;
 
-        // Podświetl wybraną klasę
-        sf::RectangleShape card(sf::Vector2f(150.f, 200.f));
-        card.setPosition(x, y);
-        card.setFillColor(m_player1Choice == i ?
-            sf::Color(80, 80, 80) : sf::Color(40, 40, 40));
-        card.setOutlineThickness(m_player1Choice == i ? 3.f : 1.f);
+        sf::RectangleShape card(sf::Vector2f(cardW, cardH));
+        card.setPosition(x, cardsY);
+        card.setFillColor(m_playerChoices[0] == i ?
+            sf::Color(80, 80, 80) : sf::Color(30, 30, 30));
+        card.setOutlineThickness(m_playerChoices[0] == i ? 4.f : 1.f);
         card.setOutlineColor(classColors[i]);
         m_window.draw(card);
 
-        // Kolor postaci
-        sf::RectangleShape preview(sf::Vector2f(60.f, 60.f));
+        sf::RectangleShape preview(sf::Vector2f(80.f, 80.f));
         preview.setFillColor(classColors[i]);
-        preview.setPosition(x + 45.f, y + 20.f);
+        preview.setPosition(x + (cardW - 80.f) / 2.f, cardsY + 20.f);
         m_window.draw(preview);
 
-        // Nazwa klasy
         sf::Text nameText;
         nameText.setFont(m_font);
         nameText.setString(classNames[i]);
-        nameText.setCharacterSize(18);
+        nameText.setCharacterSize(22);
         nameText.setFillColor(classColors[i]);
-        nameText.setPosition(x + 10.f, y + 100.f);
+        nameText.setStyle(sf::Text::Bold);
+        sf::FloatRect nb = nameText.getLocalBounds();
+        nameText.setPosition(x + (cardW - nb.width) / 2.f, cardsY + 115.f);
         m_window.draw(nameText);
 
-        // Statystyki
         sf::Text statsText;
         statsText.setFont(m_font);
         statsText.setString(classStats[i]);
-        statsText.setCharacterSize(10);
-        statsText.setFillColor(sf::Color::White);
-        statsText.setPosition(x + 5.f, y + 130.f);
+        statsText.setCharacterSize(16);
+        statsText.setFillColor(sf::Color(200, 200, 200));
+        statsText.setPosition(x + 15.f, cardsY + 150.f);
         m_window.draw(statsText);
     }
 
-    // Instrukcja gracza 1
+    sf::Text p1label;
+    p1label.setFont(m_font);
+    p1label.setString("GRACZ 1");
+    p1label.setCharacterSize(28);
+    p1label.setFillColor(sf::Color(100, 100, 255));
+    p1label.setStyle(sf::Text::Bold);
+    p1label.setPosition(p1StartX, H * 0.1f);
+    m_window.draw(p1label);
+
     sf::Text p1info;
     p1info.setFont(m_font);
-    p1info.setString(m_player1Ready ? "GOTOWY!" : "Gracz 1: A/D = wybor, F = zatwierdz");
-    p1info.setCharacterSize(16);
-    p1info.setFillColor(m_player1Ready ? sf::Color::Green : sf::Color(100, 100, 255));
-    p1info.setPosition(50.f, 370.f);
+    p1info.setString(m_playerReady[0] ?
+        "GOTOWY!" : "A/D = wybor, F = zatwierdz");
+    p1info.setCharacterSize(20);
+    p1info.setFillColor(m_playerReady[0] ?
+        sf::Color::Green : sf::Color(100, 100, 255));
+    p1info.setPosition(p1StartX, cardsY + cardH + 20.f);
     m_window.draw(p1info);
 
-    // Rysujemy karty wyboru dla gracza 2 (prawa strona)
-    for (int i = 0; i < 2; i++)
-    {
-        float x = 420.f + i * 180.f;
-        float y = 150.f;
+    // --- KARTY GRACZA 2 (prawa strona ekranu) ---
+    float p2StartX = W * 0.52f;
 
-        sf::RectangleShape card(sf::Vector2f(150.f, 200.f));
-        card.setPosition(x, y);
-        card.setFillColor(m_player2Choice == i ?
-            sf::Color(80, 80, 80) : sf::Color(40, 40, 40));
-        card.setOutlineThickness(m_player2Choice == i ? 3.f : 1.f);
+    for (int i = 0; i < 3; i++)
+    {
+        float x = p2StartX + i * cardSpacing;
+
+        sf::RectangleShape card(sf::Vector2f(cardW, cardH));
+        card.setPosition(x, cardsY);
+        card.setFillColor(m_playerChoices[1] == i ?
+            sf::Color(80, 80, 80) : sf::Color(30, 30, 30));
+        card.setOutlineThickness(m_playerChoices[1] == i ? 4.f : 1.f);
         card.setOutlineColor(classColors[i]);
         m_window.draw(card);
 
-        sf::RectangleShape preview(sf::Vector2f(60.f, 60.f));
+        sf::RectangleShape preview(sf::Vector2f(80.f, 80.f));
         preview.setFillColor(classColors[i]);
-        preview.setPosition(x + 45.f, y + 20.f);
+        preview.setPosition(x + (cardW - 80.f) / 2.f, cardsY + 20.f);
         m_window.draw(preview);
 
         sf::Text nameText;
         nameText.setFont(m_font);
         nameText.setString(classNames[i]);
-        nameText.setCharacterSize(18);
+        nameText.setCharacterSize(22);
         nameText.setFillColor(classColors[i]);
-        nameText.setPosition(x + 10.f, y + 100.f);
+        nameText.setStyle(sf::Text::Bold);
+        sf::FloatRect nb = nameText.getLocalBounds();
+        nameText.setPosition(x + (cardW - nb.width) / 2.f, cardsY + 115.f);
         m_window.draw(nameText);
 
         sf::Text statsText;
         statsText.setFont(m_font);
         statsText.setString(classStats[i]);
-        statsText.setCharacterSize(10);
-        statsText.setFillColor(sf::Color::White);
-        statsText.setPosition(x + 5.f, y + 130.f);
+        statsText.setCharacterSize(16);
+        statsText.setFillColor(sf::Color(200, 200, 200));
+        statsText.setPosition(x + 15.f, cardsY + 150.f);
         m_window.draw(statsText);
     }
 
-    // Instrukcja gracza 2
+    sf::Text p2label;
+    p2label.setFont(m_font);
+    p2label.setString("GRACZ 2");
+    p2label.setCharacterSize(28);
+    p2label.setFillColor(sf::Color(255, 100, 100));
+    p2label.setStyle(sf::Text::Bold);
+    p2label.setPosition(p2StartX, H * 0.1f);
+    m_window.draw(p2label);
+
     sf::Text p2info;
     p2info.setFont(m_font);
-    p2info.setString(m_player2Ready ? "GOTOWY!" : "Gracz 2: </> = wybor, Num0 = zatwierdz");
-    p2info.setCharacterSize(16);
-    p2info.setFillColor(m_player2Ready ? sf::Color::Green : sf::Color(255, 100, 100));
-    p2info.setPosition(420.f, 370.f);
+    p2info.setString(m_playerReady[1] ?
+        "GOTOWY!" : "</> = wybor, Num0 = zatwierdz");
+    p2info.setCharacterSize(20);
+    p2info.setFillColor(m_playerReady[1] ?
+        sf::Color::Green : sf::Color(255, 100, 100));
+    p2info.setPosition(p2StartX, cardsY + cardH + 20.f);
     m_window.draw(p2info);
+
+    // Pionowa linia podziału między sekcjami graczy
+    sf::RectangleShape divider(sf::Vector2f(4.f, H * 0.7f));
+    divider.setFillColor(sf::Color(80, 80, 80));
+    divider.setPosition(W / 2.f - 2.f, H * 0.1f);
+    m_window.draw(divider);
 }
 
 void Game::renderGameOver()
 {
-    // Przyciemnione tło żeby tekst był czytelny
+    float W = m_window.getSize().x;
+    float H = m_window.getSize().y;
+
+    // Półprzezroczyste czarne tło poprawia czytelność tekstu
     sf::RectangleShape overlay;
-    overlay.setSize(sf::Vector2f(800.f, 600.f));
-    overlay.setFillColor(sf::Color(0, 0, 0, 150)); // czarne półprzezroczyste
+    overlay.setSize(sf::Vector2f(W, H));
+    overlay.setFillColor(sf::Color(0, 0, 0, 150));
     m_window.draw(overlay);
 
-    // Ustal kto wygrał
+    // Ustalamy wynik na podstawie HP graczy
     std::string winnerText;
-    sf::Color winnerColor;
+    sf::Color   winnerColor;
 
-    if (!m_player1->isAlive() && !m_player2->isAlive())
+    bool p1alive = m_players[0]->isAlive();
+    bool p2alive = m_players[1]->isAlive();
+
+    if (!p1alive && !p2alive)
     {
-        winnerText = "REMIS!";
+        winnerText  = "REMIS!";
         winnerColor = sf::Color::White;
     }
-    else if (!m_player1->isAlive())
+    else if (!p1alive)
     {
-        winnerText = "Gracz 2 wygrywa!";
+        winnerText  = "Gracz 2 wygrywa!";
         winnerColor = sf::Color::Red;
     }
     else
     {
-        winnerText = "Gracz 1 wygrywa!";
+        winnerText  = "Gracz 1 wygrywa!";
         winnerColor = sf::Color::Blue;
     }
 
-    // Tekst zwycięzcy
     sf::Text winner;
     winner.setFont(m_font);
     winner.setString(winnerText);
-    winner.setCharacterSize(56);
+    winner.setCharacterSize(72);
     winner.setFillColor(winnerColor);
     winner.setStyle(sf::Text::Bold);
-
-    sf::FloatRect winnerBounds = winner.getLocalBounds();
-    winner.setPosition((800.f - winnerBounds.width) / 2.f, 200.f);
-
-    // Prompt żeby zagrać jeszcze raz
-    sf::Text restartPrompt;
-    restartPrompt.setFont(m_font);
-    restartPrompt.setString("Nacisnij ENTER aby zagrac jeszcze raz");
-    restartPrompt.setCharacterSize(26);
-    restartPrompt.setFillColor(sf::Color::Yellow);
-
-    sf::FloatRect restartBounds = restartPrompt.getLocalBounds();
-    restartPrompt.setPosition((800.f - restartBounds.width) / 2.f, 350.f);
-
+    sf::FloatRect wb = winner.getLocalBounds();
+    winner.setPosition((W - wb.width) / 2.f, H * 0.3f);
     m_window.draw(winner);
-    m_window.draw(restartPrompt);
+
+    sf::Text prompt;
+    prompt.setFont(m_font);
+    prompt.setString("Nacisnij ENTER aby zagrac jeszcze raz");
+    prompt.setCharacterSize(32);
+    prompt.setFillColor(sf::Color::Yellow);
+    sf::FloatRect pb = prompt.getLocalBounds();
+    prompt.setPosition((W - pb.width) / 2.f, H * 0.55f);
+    m_window.draw(prompt);
+}
+
+void Game::spawnHealthPack()
+{
+    float W = m_window.getSize().x;
+    float H = m_window.getSize().y;
+    float arenaSize = std::min(W, H) * 0.75f;
+    float offsetX   = (W - arenaSize) / 2.f;
+    float offsetY   = (H - arenaSize) / 2.f;
+
+    // Losujemy pozycję wewnątrz areny z marginesem od ścian
+    float margin = 40.f;
+    float x = offsetX + margin +
+        static_cast<float>(rand()) / RAND_MAX * (arenaSize - 2.f * margin);
+    float y = offsetY + margin +
+        static_cast<float>(rand()) / RAND_MAX * (arenaSize - 2.f * margin);
+
+    m_healthPacks.emplace_back(x, y, 30);
+}
+
+void Game::updateHealthPacks()
+{
+    // Sprawdź kolizje każdej apteczki z każdym graczem
+    for (auto& pack : m_healthPacks)
+    {
+        if (!pack.isActive()) continue;
+
+        for (auto& player : m_players)
+        {
+            if (pack.getBounds().intersects(player->getBounds()))
+            {
+                // Gracz podnosi apteczkę - leczy się ale nie więcej niż maxHP
+                int newHP = player->getHP() + pack.getHealing();
+                if (newHP > player->getMaxHP())
+                    newHP = player->getMaxHP();
+
+                // Musimy dodać metodę heal() do PlayerBase
+                player->heal(newHP - player->getHP());
+                pack.collect();
+                break; // apteczka może być podniesiona tylko raz
+            }
+        }
+    }
+
+    // Usuń nieaktywne apteczki
+    m_healthPacks.erase(
+        std::remove_if(m_healthPacks.begin(), m_healthPacks.end(),
+            [](const HealthPack& p) { return !p.isActive(); }),
+        m_healthPacks.end()
+    );
 }

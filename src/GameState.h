@@ -1,16 +1,23 @@
+/**
+ * @file GameState.h
+ * @brief Definicja wyliczenia stanów gry
+ */
+ 
 #pragma once
-
+ 
 /**
  * @brief Możliwe stany gry
- * 
- * enum class to "wyliczenie" - lista nazwanych wartości.
- * Używamy go zamiast zwykłych liczb (0, 1, 2) bo kod
- * jest wtedy czytelniejszy i bezpieczniejszy.
+ *
+ * Gra przechodzi przez kolejne stany w następującej kolejności:
+ * Menu → CharacterSelect → WallPlacement → Playing → GameOver
+ * Z GameOver można wrócić do CharacterSelect przez restart.
  */
 enum class GameState
 {
-    Menu,            // ekran startowy
-    CharacterSelect, // ekran wyboru postaci
-    Playing,         // rozgrywka
-    GameOver         // ekran końca gry
+    Menu,            ///< Ekran głównego menu
+    CharacterSelect, ///< Ekran wyboru postaci dla obu graczy
+    WallPlacement,   ///< Faza układania ścian na planszy przed walką
+    Playing,         ///< Właściwa rozgrywka - walka między graczami
+    GameOver         ///< Ekran końca gry z informacją o zwycięzcy
 };
+ 

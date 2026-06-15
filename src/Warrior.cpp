@@ -1,12 +1,10 @@
+/**
+ * @file Warrior.cpp
+ * @brief Implementacja klasy Warrior
+ */
+
 #include "Warrior.h"
 
-/**
- * Konstruktor wojownika - wywołuje konstruktor klasy bazowej
- * z ustalonymi statystykami wojownika.
- * 
- * "PlayerBase(...)" w liście inicjalizacyjnej to wywołanie
- * konstruktora klasy bazowej - tak przekazujemy dane "w górę" hierarchii
- */
 Warrior::Warrior(float startX, float startY,
                  sf::Keyboard::Key upKey,
                  sf::Keyboard::Key downKey,
@@ -14,26 +12,23 @@ Warrior::Warrior(float startX, float startY,
                  sf::Keyboard::Key rightKey,
                  sf::Keyboard::Key attackKey)
     : PlayerBase(startX, startY,
-                 sf::Color(50, 100, 255),  // niebieski
+                 sf::Color(50, 100, 255), // niebieski
                  upKey, downKey, leftKey, rightKey, attackKey,
-                 150,    // HP
-                 150.f,  // prędkość
-                 25,     // obrażenia
-                 40.f)   // zasięg ataku
+                 150,   // HP - najwyższe spośród klas
+                 150.f, // prędkość - najniższa spośród klas
+                 25,    // obrażenia - najwyższe spośród klas
+                 40.f)  // zasięg ataku wręcz
 {
-    // Wojownik jest większy niż bazowy gracz
+    // Wojownik jest większy od pozostałych postaci
     m_shape.setSize(sf::Vector2f(45.f, 45.f));
 
-    // Obramowanie żeby wyglądał solidniej
+    // Grube obramowanie podkreśla masywność postaci
     m_shape.setOutlineThickness(3.f);
     m_shape.setOutlineColor(sf::Color(200, 200, 255));
 }
 
 void Warrior::draw(sf::RenderWindow& window)
 {
-    // Wywołujemy rysowanie klasy bazowej (prostokąt, HP bar, atak)
-    PlayerBase::draw(window);
-
-    // Wojownik nie ma na razie dodatkowych efektów wizualnych
-    // ale możemy tu dodać np. efekt "wściekłości" gdy HP spada
+    // Rysujemy wspólne elementy przez klasę bazową
+    drawBase(window);
 }

@@ -12,9 +12,13 @@
                 "src/PlayerBase.cpp",
                 "src/Warrior.cpp",
                 "src/Mage.cpp",
+                "src/Archer.cpp",
                 "src/Projectile.cpp",
-                "-IC:/BattleArena/SFML/include",
-                "-LC:/BattleArena/SFML/lib",
+                "src/Wall.cpp",
+                "src/WallPlacer.cpp",
+                "src/HealthPack.cpp",
+                "-I${workspaceFolder}/SFML/include",
+                "-L${workspaceFolder}/SFML/lib",
                 "-LC:/SFML-src/extlibs/libs-mingw/x64",
                 "-lsfml-graphics-s",
                 "-lsfml-window-s",
@@ -26,8 +30,11 @@
                 "-lgdi32",
                 "-DSFML_STATIC",
                 "-o",
-                "BattleArena.exe"
+                "${workspaceFolder}/BattleArena.exe"
             ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
