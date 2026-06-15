@@ -1,0 +1,76 @@
+\doxysection{Game.\+h}
+\hypertarget{_game_8h_source}{}\label{_game_8h_source}\index{src/Game.h@{src/Game.h}}
+\mbox{\hyperlink{_game_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_player_base_8h}{PlayerBase.h}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_state_8h}{GameState.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_wall_8h}{Wall.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_wall_placer_8h}{WallPlacer.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_health_pack_8h}{HealthPack.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game}{Game}}}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}}();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa}{run}}();}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a79f698dda206dd7a9bed28b3f88bdc38}{processEvents}}();}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a419466336fad97182f5051e11f541636}{update}}(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a15ddd769261d923827a3cdf41499c843}{render}}();}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_ad4b2332d1450948bcb468a519b23c126}{checkCombat}}();}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a277e729a12bf9f5aa4e45457edb96d79}{renderMenu}}();}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_acf9096c3f9cf50df02fd4c36aa7b882f}{renderCharacterSelect}}();}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_ad6b50e63ca681c1087167ca986f2e6ed}{renderGameOver}}();}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a47c726a80fd133c0a4f6b8fba56d8832}{resetGame}}();}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a735d35cc04aef0e41f0a34a180b122ce}{createBorderWalls}}();}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00141\ \ \ \ \ std::unique\_ptr<PlayerBase>\ \mbox{\hyperlink{class_game_a25de60c29b294d1cf9c1b6625fc5607b}{createPlayer}}(}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ characterIndex,}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ startX,\ \textcolor{keywordtype}{float}\ startY,}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ upKey,}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ downKey,}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ leftKey,}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ rightKey,}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ attackKey);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ sf::RenderWindow\ \mbox{\hyperlink{class_game_a22a61b5ea27c609be8cf2724c33d7ae5}{m\_window}};\ }
+\DoxyCodeLine{00151\ \ \ \ \ sf::Clock\ \ \ \ \ \ \ \ \mbox{\hyperlink{class_game_afa2b2cd71f1808971458e67a8540a83d}{m\_clock}};\ \ }
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00154\ \ \ \ \ std::vector<std::unique\_ptr<PlayerBase>>\ \mbox{\hyperlink{class_game_ad6bf981b76e1a85d1fb733a1be5239aa}{m\_players}};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00157\ \ \ \ \ std::vector<std::unique\_ptr<Wall>>\ \mbox{\hyperlink{class_game_a6d9b554f87503de7df26b3a713ad44ad}{m\_walls}};}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00160\ \ \ \ \ std::unique\_ptr<WallPlacer>\ \mbox{\hyperlink{class_game_a45c7de5bb860f05975dbfd934721e3aa}{m\_wallPlacer}};}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}{GameState}}\ \mbox{\hyperlink{class_game_a373c26e06bea85c3d3be5fe027d2a5da}{m\_state}};\ }
+\DoxyCodeLine{00163\ \ \ \ \ sf::Font\ \ \mbox{\hyperlink{class_game_af5c5c39d0eabe68c3bfff3509900a489}{m\_font}};\ \ }
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ std::vector<int>\ \ \mbox{\hyperlink{class_game_af12e82f289dba3b87fb525c95afac042}{m\_playerChoices}};\ }
+\DoxyCodeLine{00166\ \ \ \ \ std::vector<bool>\ \mbox{\hyperlink{class_game_a44caf8d348b4515874b75946da46a8d3}{m\_playerReady}};\ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_aaf9068be39eabc83a0dfa034e82b6659}{updateHealthPacks}}();}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a708f5f0640afc56e4d70d0b46f76655c}{spawnHealthPack}}();}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ std::vector<HealthPack>\ \mbox{\hyperlink{class_game_a8e2c6389826a908cdeaf8b0a13b86876}{m\_healthPacks}};\ \ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_game_a32025133cb7fced2554613d5518204e5}{m\_healthPackTimer}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_game_ae16302f7821c257b8408d933be3b1db4}{m\_healthPackInterval}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00180\ \};}
+
+\end{DoxyCode}

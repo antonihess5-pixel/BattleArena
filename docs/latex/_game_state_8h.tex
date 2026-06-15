@@ -1,0 +1,59 @@
+\doxysection{src/\+Game\+State.h File Reference}
+\hypertarget{_game_state_8h}{}\label{_game_state_8h}\index{src/GameState.h@{src/GameState.h}}
+
+
+Definicja wyliczenia stanów gry.  
+
+
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}{Game\+State}} \{ \newline
+\mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285ab61541208db7fa7dba42c85224405911}{Menu}}
+, \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a4b3df465af3fc16a7a4c2d2028204489}{Character\+Select}}
+, \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a367f29e3318022f658446d11b0379795}{Wall\+Placement}}
+, \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285ac9dbb2b7c84159b632d71e512eba8428}{Playing}}
+, \newline
+\mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a8f347bc7cebca9fa6d97e70c6bc29eb3}{Game\+Over}}
+ \}
+\begin{DoxyCompactList}\small\item\em Możliwe stany gry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Definicja wyliczenia stanów gry. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}\index{GameState.h@{GameState.h}!GameState@{GameState}}
+\index{GameState@{GameState}!GameState.h@{GameState.h}}
+\doxysubsubsection{\texorpdfstring{GameState}{GameState}}
+{\footnotesize\ttfamily \label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+enum class \mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}{Game\+State}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Możliwe stany gry. 
+
+Gra przechodzi przez kolejne stany w następującej kolejności\+: Menu → Character\+Select → Wall\+Placement → Playing → Game\+Over Z Game\+Over można wrócić do Character\+Select przez restart. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Menu@{Menu}!GameState.h@{GameState.h}}\index{GameState.h@{GameState.h}!Menu@{Menu}}}\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285ab61541208db7fa7dba42c85224405911}\label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+Menu&Ekran głównego menu. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CharacterSelect@{CharacterSelect}!GameState.h@{GameState.h}}\index{GameState.h@{GameState.h}!CharacterSelect@{CharacterSelect}}}\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a4b3df465af3fc16a7a4c2d2028204489}\label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+Character\+Select&Ekran wyboru postaci dla obu graczy. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WallPlacement@{WallPlacement}!GameState.h@{GameState.h}}\index{GameState.h@{GameState.h}!WallPlacement@{WallPlacement}}}\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a367f29e3318022f658446d11b0379795}\label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+Wall\+Placement&Faza układania ścian na planszy przed walką \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Playing@{Playing}!GameState.h@{GameState.h}}\index{GameState.h@{GameState.h}!Playing@{Playing}}}\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285ac9dbb2b7c84159b632d71e512eba8428}\label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+Playing&Właściwa rozgrywka -\/ walka między graczami. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GameOver@{GameOver}!GameState.h@{GameState.h}}\index{GameState.h@{GameState.h}!GameOver@{GameOver}}}\Hypertarget{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285a8f347bc7cebca9fa6d97e70c6bc29eb3}\label{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285} 
+Game\+Over&Ekran końca gry z informacją o zwycięzcy. \\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,28 @@
+\doxysection{Archer.\+h}
+\hypertarget{_archer_8h_source}{}\label{_archer_8h_source}\index{src/Archer.h@{src/Archer.h}}
+\mbox{\hyperlink{_archer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_player_base_8h}{PlayerBase.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_archer}{Archer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_player_base}{PlayerBase}}}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{class_archer_aba9364757715b750f10e06ad153d313b}{Archer}}(\textcolor{keywordtype}{float}\ startX,\ \textcolor{keywordtype}{float}\ startY,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ upKey,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ downKey,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ leftKey,}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ rightKey,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ sf::Keyboard::Key\ attackKey);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_archer_a3928c42611318ce3e1fa06739afab54a}{update}}(\textcolor{keywordtype}{float}\ deltaTime,\ \textcolor{keyword}{const}\ sf::Vector2u\&\ windowSize)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_archer_ada237b9e23d3f2781fa73aefb5f13a4e}{draw}}(sf::RenderWindow\&\ window)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_archer_a133d0341cb79b70193b52775e13687a6}{ARROW\_SPEED}};\ }
+\DoxyCodeLine{00072\ \};}
+
+\end{DoxyCode}

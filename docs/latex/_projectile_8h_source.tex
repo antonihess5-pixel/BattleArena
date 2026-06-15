@@ -1,0 +1,48 @@
+\doxysection{Projectile.\+h}
+\hypertarget{_projectile_8h_source}{}\label{_projectile_8h_source}\index{src/Projectile.h@{src/Projectile.h}}
+\mbox{\hyperlink{_projectile_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_direction_8h}{Direction.h}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_wall}{Wall}};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_projectile}{Projectile}}}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{class_projectile_aa493494367e6dbcd0b6171cd1908bf98}{Projectile}}(\textcolor{keywordtype}{float}\ startX,\ \textcolor{keywordtype}{float}\ startY,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_direction_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}\ direction,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ damage,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ speed\ =\ 400.f,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isArrow\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_projectile_a5bc646de87829b911d6817a6478c353e}{update}}(\textcolor{keywordtype}{float}\ deltaTime);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_projectile_a447fd63b6a40618e971dd656a0938a3a}{draw}}(sf::RenderWindow\&\ window);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_projectile_aa3107fe7df323250ca2ae0e869994790}{isActive}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00065\ \ \ \ \ sf::FloatRect\ \mbox{\hyperlink{class_projectile_a10206c540f93413b1d0e6a61ef3de996}{getBounds}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_projectile_af5cd30772ad4cb3894629ca76c6b8f79}{getDamage}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_projectile_a6aa9b6ef83fedaf348a0b87b441f1394}{deactivate}}();}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_projectile_a5ce13edeecbae1610f5fea229cb508f7}{checkWallCollisions}}(\textcolor{keyword}{const}\ std::vector<std::unique\_ptr<Wall>>\&\ walls);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00087\ \ \ \ \ sf::CircleShape\ \ \ \ \mbox{\hyperlink{class_projectile_a36c3b047a0f8de7fec36dad0247cfdd1}{m\_shape}};\ \ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ sf::RectangleShape\ \mbox{\hyperlink{class_projectile_a4dffdcf657ee1614eefc48aae987fec6}{m\_arrowShape}};\ }
+\DoxyCodeLine{00089\ \ \ \ \ sf::Vector2f\ \ \ \ \ \ \ \mbox{\hyperlink{class_projectile_ae052b6bf7f25063f1c3b0fff3911d4a0}{m\_velocity}};\ \ \ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_projectile_af9dcc1b11bd5752a25094f24dba7dbaa}{m\_active}};\ \ \ \ \ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_projectile_af3a34caef3dbd193246e8cee660ece1d}{m\_damage}};\ \ \ \ \ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_projectile_a24cfff6bb865fae37b25aeb8068a4924}{m\_speed}};\ \ \ \ \ \ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_projectile_ad7912b85be992d56ec7d1dbe82c18f59}{m\_isArrow}};\ \ \ \ }
+\DoxyCodeLine{00094\ \};}
+
+\end{DoxyCode}

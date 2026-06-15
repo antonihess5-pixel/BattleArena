@@ -1,0 +1,191 @@
+\doxysection{Warrior Class Reference}
+\hypertarget{class_warrior}{}\label{class_warrior}\index{Warrior@{Warrior}}
+
+
+Wojownik -\/ klasa postaci walczącej wręcz.  
+
+
+
+
+{\ttfamily \#include $<$Warrior.\+h$>$}
+
+Inheritance diagram for Warrior\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_warrior}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_warrior_a67c283c9cc251f7fd672c14970f1ce47}{Warrior}} (float startX, float startY, sf\+::\+Keyboard\+::\+Key up\+Key, sf\+::\+Keyboard\+::\+Key down\+Key, sf\+::\+Keyboard\+::\+Key left\+Key, sf\+::\+Keyboard\+::\+Key right\+Key, sf\+::\+Keyboard\+::\+Key attack\+Key)
+\begin{DoxyCompactList}\small\item\em Konstruktor wojownika. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_warrior_a0b30fff10a2d05200135530c10534021}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em Rysuje wojownika i jego elementy graficzne. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_player_base}{Player\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_player_base_a8c9b4d86b4ffadef3f3532231d56f957}{Player\+Base}} (float startX, float startY, sf\+::\+Color color, sf\+::\+Keyboard\+::\+Key up\+Key, sf\+::\+Keyboard\+::\+Key down\+Key, sf\+::\+Keyboard\+::\+Key left\+Key, sf\+::\+Keyboard\+::\+Key right\+Key, sf\+::\+Keyboard\+::\+Key attack\+Key, int hp, float speed, int damage, float attack\+Range)
+\begin{DoxyCompactList}\small\item\em Konstruktor klasy bazowej gracza. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_player_base_afcdec5cd9060d2753ddb43bea6340967}{\texorpdfstring{$\sim$}{\string~}\+Player\+Base}} ()=default
+\begin{DoxyCompactList}\small\item\em Wirtualny destruktor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_player_base_a1d8e55714bc3e17e375e7ffb3a945c9d}{update}} (float delta\+Time, const sf\+::\+Vector2u \&window\+Size)
+\begin{DoxyCompactList}\small\item\em Aktualizuje logikę gracza. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{class_player_base_a4544596be4fe8c271eb774d9f7944711}{get\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca prostokąt kolizji gracza. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{class_player_base_acfdf54621313f37b0ace3ef36c675b26}{get\+Attack\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca prostokąt kolizji ataku wręcz. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_a4af13cdf1604e967f9db5fd3ec6da649}{is\+Attacking}} () const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy gracz aktualnie wykonuje atak. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_ace09d217cad5e4109017cbf16977a0ce}{get\+HP}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca aktualne punkty życia. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_ac2dd227693b145c8365c028d592f66ce}{get\+Max\+HP}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca maksymalne punkty życia. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_afbb77051999cd713bdf210704540ccb5}{is\+Alive}} () const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy gracz żyje. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_a77fd6d261d1e59940dec467b48fa16aa}{has\+Dealt\+Hit}} () const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy atak już zadał obrażenia w tej animacji. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_a4900ab303683ad2a661b37a0359a686f}{set\+Hit\+Dealt}} (bool value)
+\begin{DoxyCompactList}\small\item\em Ustawia flagę zadania obrażeń \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_a8a1a0a84abe4c3c8737a83470891b60d}{get\+Damage}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca obrażenia zadawane przez tego gracza. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_projectile}{Projectile}} $>$ $>$ \& \mbox{\hyperlink{class_player_base_ab22a01d7a1284445da18e03c142819ee}{get\+Projectiles}} ()
+\begin{DoxyCompactList}\small\item\em Zwraca referencję do wektora pocisków gracza. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_af5113c774c64970da9bafdc54ae2d584}{take\+Damage}} (int amount)
+\begin{DoxyCompactList}\small\item\em Zadaje obrażenia graczowi. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_aee4a2c9f1a812992d15c5651750cb5bb}{check\+Wall\+Collisions}} (const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \&walls)
+\begin{DoxyCompactList}\small\item\em Sprawdza kolizję gracza ze ścianami i cofa go. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_afaf0fd251f48d69ab97c7456562a2269}{on\+Attack\+Key\+Pressed}} (sf\+::\+Keyboard\+::\+Key key)
+\begin{DoxyCompactList}\small\item\em Informuje gracza o wciśnięciu klawisza. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_a3d610866f26f2bbb71317218ddd5f7cb}{heal}} (int amount)
+\begin{DoxyCompactList}\small\item\em Leczy gracza o podaną wartość \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_player_base}{Player\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_player_base_aa72afe048c550de2f966b14f1139321a}{update\+Attack}} (float delta\+Time)
+\begin{DoxyCompactList}\small\item\em Aktualizuje logikę ataku wręcz (\doxylink{class_warrior}{Warrior}) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_a0a54fba37cb296522096440a9f91bbaa}{clamp\+To\+Window}} (const sf\+::\+Vector2u \&window\+Size)
+\begin{DoxyCompactList}\small\item\em Ogranicza pozycję gracza do granic okna. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_player_base_ad10069681223dd904b1be86dd057df68}{draw\+Base}} (sf\+::\+Render\+Window \&window)
+\begin{DoxyCompactList}\small\item\em Rysuje wspólne elementy wszystkich postaci. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_player_base}{Player\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_player_base_a4e0cf5f86dac582b8ec9316edd41bace}{m\+\_\+shape}}
+\begin{DoxyCompactList}\small\item\em Prostokąt reprezentujący gracza. \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_player_base_a0361c7d1f54f132fc8cc7ce47cdf302a}{m\+\_\+attack\+Shape}}
+\begin{DoxyCompactList}\small\item\em Hitbox ataku wręcz (\doxylink{class_warrior}{Warrior}) \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_player_base_a6123f13d529119cb19579204a3908e62}{m\+\_\+hp\+Bar}}
+\begin{DoxyCompactList}\small\item\em Pasek HP -\/ tło (ciemnoczerwone) \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_player_base_a8c67a96068fb3f9404a47eb9e596561b}{m\+\_\+hp\+Bar\+Fill}}
+\begin{DoxyCompactList}\small\item\em Pasek HP -\/ wypełnienie (zielony/żółty/czerwony) \end{DoxyCompactList}\item 
+sf\+::\+Keyboard\+::\+Key \mbox{\hyperlink{class_player_base_af07f823dbb842deae0c8904eefbf7a95}{m\+\_\+up\+Key}}
+\begin{DoxyCompactList}\small\item\em Klawisz ruchu w górę \end{DoxyCompactList}\item 
+sf\+::\+Keyboard\+::\+Key \mbox{\hyperlink{class_player_base_a9e88286d3607a0223caa66966988bcd8}{m\+\_\+down\+Key}}
+\begin{DoxyCompactList}\small\item\em Klawisz ruchu w dół \end{DoxyCompactList}\item 
+sf\+::\+Keyboard\+::\+Key \mbox{\hyperlink{class_player_base_a1e13fe43b3d00211f9e8bf567781d22e}{m\+\_\+left\+Key}}
+\begin{DoxyCompactList}\small\item\em Klawisz ruchu w lewo. \end{DoxyCompactList}\item 
+sf\+::\+Keyboard\+::\+Key \mbox{\hyperlink{class_player_base_a2af9464c048c841f0ee1de805e9ac323}{m\+\_\+right\+Key}}
+\begin{DoxyCompactList}\small\item\em Klawisz ruchu w prawo. \end{DoxyCompactList}\item 
+sf\+::\+Keyboard\+::\+Key \mbox{\hyperlink{class_player_base_a4f979e6611560006277792577bd48b1a}{m\+\_\+attack\+Key}}
+\begin{DoxyCompactList}\small\item\em Klawisz ataku. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_a78a0b97adff1a27ecdf4a29f1ab9e17c}{m\+\_\+speed}}
+\begin{DoxyCompactList}\small\item\em Prędkość ruchu w pikselach na sekundę \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_af42946bbf66afee2818cf334bbadc129}{m\+\_\+hp}}
+\begin{DoxyCompactList}\small\item\em Aktualne punkty życia. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_ab2c01ca94c7241750ad1b25610389a77}{m\+\_\+max\+HP}}
+\begin{DoxyCompactList}\small\item\em Maksymalne punkty życia. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_player_base_ad4692f671025e482781b3dccb39b76a7}{m\+\_\+damage}}
+\begin{DoxyCompactList}\small\item\em Obrażenia zadawane przy ataku. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_ab062b616d582743ce37480aadb931bbd}{m\+\_\+attack\+Range}}
+\begin{DoxyCompactList}\small\item\em Zasięg ataku wręcz w pikselach. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_direction_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \mbox{\hyperlink{class_player_base_ab895455589f2672ffb8258d64b0e2e7e}{m\+\_\+direction}}
+\begin{DoxyCompactList}\small\item\em Ostatni kierunek ruchu -\/ określa kierunek ataku. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_a606877a7d9a481941cfdfa59103a229d}{m\+\_\+attacking}}
+\begin{DoxyCompactList}\small\item\em Czy animacja ataku jest aktywna. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_aed05ca631e59ee05cd5cf08d973d9baa}{m\+\_\+attack\+Timer}}
+\begin{DoxyCompactList}\small\item\em Pozostały czas animacji ataku. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_afae1258af68b5723b91efdd5623f4d44}{m\+\_\+attack\+Duration}}
+\begin{DoxyCompactList}\small\item\em Całkowity czas trwania animacji ataku. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_aa269cff7ca858801f7d2af19743db7bc}{m\+\_\+attack\+Cooldown}}
+\begin{DoxyCompactList}\small\item\em Czas odnowienia między atakami. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_player_base_aa25effe6021867083cde0a0dcb9c0543}{m\+\_\+attack\+Cooldown\+Timer}}
+\begin{DoxyCompactList}\small\item\em Pozostały czas cooldownu. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_abcbe81ee91b5fc58bcb66d6bc9542698}{m\+\_\+hit\+Dealt}}
+\begin{DoxyCompactList}\small\item\em Czy obrażenia zostały zadane w tym ataku. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_player_base_a628546eace08e0801627bd7013ead9f0}{m\+\_\+attack\+Key\+Pressed}}
+\begin{DoxyCompactList}\small\item\em Flaga wciśnięcia klawisza ataku (event-\/based) \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_projectile}{Projectile}} $>$ $>$ \mbox{\hyperlink{class_player_base_a6f58de853dcf7a1bb21ac948b0841cc0}{m\+\_\+projectiles}}
+\begin{DoxyCompactList}\small\item\em Aktywne pociski gracza. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Wojownik -\/ klasa postaci walczącej wręcz. 
+
+Dziedziczy po \doxylink{class_player_base}{Player\+Base} i reprezentuje postać zoptymalizowaną pod kąt walki w zwarciu. Posiada największą ilość HP spośród wszystkich klas, kosztem niższej prędkości.
+
+Statystyki\+:
+\begin{DoxyItemize}
+\item HP\+: 150 (najwyższe)
+\item Prędkość\+: 150 px/s (najniższa)
+\item Obrażenia\+: 25 (najwyższe)
+\item Zasięg\+: bliski (40px hitbox wręcz) 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_warrior_a67c283c9cc251f7fd672c14970f1ce47}\index{Warrior@{Warrior}!Warrior@{Warrior}}
+\index{Warrior@{Warrior}!Warrior@{Warrior}}
+\doxysubsubsection{\texorpdfstring{Warrior()}{Warrior()}}
+{\footnotesize\ttfamily \label{class_warrior_a67c283c9cc251f7fd672c14970f1ce47} 
+Warrior\+::\+Warrior (\begin{DoxyParamCaption}\item[{float}]{startX}{, }\item[{float}]{startY}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{up\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{down\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{left\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{right\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{attack\+Key}{}\end{DoxyParamCaption})}
+
+
+
+Konstruktor wojownika. 
+
+Statystyki są zdefiniowane wewnątrz klasy i nie mogą być zmienione. 
+\begin{DoxyParams}{Parameters}
+{\em startX} & Startowa pozycja X w pikselach \\
+\hline
+{\em startY} & Startowa pozycja Y w pikselach \\
+\hline
+{\em up\+Key} & Klawisz ruchu w górę \\
+\hline
+{\em down\+Key} & Klawisz ruchu w dół \\
+\hline
+{\em left\+Key} & Klawisz ruchu w lewo \\
+\hline
+{\em right\+Key} & Klawisz ruchu w prawo \\
+\hline
+{\em attack\+Key} & Klawisz ataku wręcz \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_warrior_a0b30fff10a2d05200135530c10534021}\index{Warrior@{Warrior}!draw@{draw}}
+\index{draw@{draw}!Warrior@{Warrior}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_warrior_a0b30fff10a2d05200135530c10534021} 
+void Warrior\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Rysuje wojownika i jego elementy graficzne. 
+
+Wywołuje \doxylink{class_player_base_ad10069681223dd904b1be86dd057df68}{draw\+Base()} z klasy bazowej która rysuje kształt, pasek HP i ewentualny hitbox ataku. 
+\begin{DoxyParams}{Parameters}
+{\em window} & Referencja do okna gry \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_player_base_aa56d96c5b80fe3de32ee8ec9cec3df10}{Player\+Base}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_warrior_8h}{Warrior.\+h}}\item 
+src/\mbox{\hyperlink{_warrior_8cpp}{Warrior.\+cpp}}\end{DoxyCompactItemize}

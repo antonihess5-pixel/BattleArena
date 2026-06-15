@@ -1,0 +1,262 @@
+\doxysection{Projectile Class Reference}
+\hypertarget{class_projectile}{}\label{class_projectile}\index{Projectile@{Projectile}}
+
+
+Reprezentuje lecący pocisk lub strzałę  
+
+
+
+
+{\ttfamily \#include $<$Projectile.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_projectile_aa493494367e6dbcd0b6171cd1908bf98}{Projectile}} (float startX, float startY, \mbox{\hyperlink{_direction_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} direction, int damage, float speed=400.f, bool is\+Arrow=false)
+\begin{DoxyCompactList}\small\item\em Konstruktor pocisku. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_projectile_a5bc646de87829b911d6817a6478c353e}{update}} (float delta\+Time)
+\begin{DoxyCompactList}\small\item\em Aktualizuje pozycję pocisku. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_projectile_a447fd63b6a40618e971dd656a0938a3a}{draw}} (sf\+::\+Render\+Window \&window)
+\begin{DoxyCompactList}\small\item\em Rysuje pocisk na ekranie. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_projectile_aa3107fe7df323250ca2ae0e869994790}{is\+Active}} () const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy pocisk jest aktywny. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{class_projectile_a10206c540f93413b1d0e6a61ef3de996}{get\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca prostokąt kolizji pocisku. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_projectile_af5cd30772ad4cb3894629ca76c6b8f79}{get\+Damage}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca obrażenia zadawane przez pocisk. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_projectile_a6aa9b6ef83fedaf348a0b87b441f1394}{deactivate}} ()
+\begin{DoxyCompactList}\small\item\em Dezaktywuje pocisk po trafieniu w cel. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_projectile_a5ce13edeecbae1610f5fea229cb508f7}{check\+Wall\+Collisions}} (const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \&walls)
+\begin{DoxyCompactList}\small\item\em Sprawdza kolizję pocisku z wektorem ścian. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Circle\+Shape \mbox{\hyperlink{class_projectile_a36c3b047a0f8de7fec36dad0247cfdd1}{m\+\_\+shape}}
+\begin{DoxyCompactList}\small\item\em Kształt pocisku maga (kółko) \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_projectile_a4dffdcf657ee1614eefc48aae987fec6}{m\+\_\+arrow\+Shape}}
+\begin{DoxyCompactList}\small\item\em Kształt strzały łucznika (kreska) \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{class_projectile_ae052b6bf7f25063f1c3b0fff3911d4a0}{m\+\_\+velocity}}
+\begin{DoxyCompactList}\small\item\em Wektor prędkości (px/s w osiach X i Y) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_projectile_af9dcc1b11bd5752a25094f24dba7dbaa}{m\+\_\+active}}
+\begin{DoxyCompactList}\small\item\em Czy pocisk jest aktywny. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_projectile_af3a34caef3dbd193246e8cee660ece1d}{m\+\_\+damage}}
+\begin{DoxyCompactList}\small\item\em Obrażenia przy trafieniu. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_projectile_a24cfff6bb865fae37b25aeb8068a4924}{m\+\_\+speed}}
+\begin{DoxyCompactList}\small\item\em Prędkość pocisku w px/s. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_projectile_ad7912b85be992d56ec7d1dbe82c18f59}{m\+\_\+is\+Arrow}}
+\begin{DoxyCompactList}\small\item\em Czy to strzała (true) czy pocisk maga (false) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Reprezentuje lecący pocisk lub strzałę 
+
+Klasa obsługuje dwa typy pocisków\+:
+\begin{DoxyItemize}
+\item Pocisk maga\+: fioletowe kółko, prędkość 400px/s
+\item Strzała łucznika\+: zielona kreska, prędkość 280px/s
+\end{DoxyItemize}
+
+Pocisk porusza się w jednym kierunku aż trafi w gracza, ścianę lub wyleci poza granice ekranu. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_projectile_aa493494367e6dbcd0b6171cd1908bf98}\index{Projectile@{Projectile}!Projectile@{Projectile}}
+\index{Projectile@{Projectile}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{Projectile()}{Projectile()}}
+{\footnotesize\ttfamily \label{class_projectile_aa493494367e6dbcd0b6171cd1908bf98} 
+Projectile\+::\+Projectile (\begin{DoxyParamCaption}\item[{float}]{startX}{, }\item[{float}]{startY}{, }\item[{\mbox{\hyperlink{_direction_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}}]{direction}{, }\item[{int}]{damage}{, }\item[{float}]{speed}{ = {\ttfamily 400.f}, }\item[{bool}]{is\+Arrow}{ = {\ttfamily false}}\end{DoxyParamCaption})}
+
+
+
+Konstruktor pocisku. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em startX} & Pozycja startowa X w pikselach \\
+\hline
+{\em startY} & Pozycja startowa Y w pikselach \\
+\hline
+{\em direction} & Kierunek lotu pocisku \\
+\hline
+{\em damage} & Obrażenia zadawane przy trafieniu \\
+\hline
+{\em speed} & Prędkość pocisku w pikselach na sekundę (domyślnie 400) \\
+\hline
+{\em is\+Arrow} & Czy to strzała łucznika (true) czy pocisk maga (false) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_projectile_a5ce13edeecbae1610f5fea229cb508f7}\index{Projectile@{Projectile}!checkWallCollisions@{checkWallCollisions}}
+\index{checkWallCollisions@{checkWallCollisions}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{checkWallCollisions()}{checkWallCollisions()}}
+{\footnotesize\ttfamily \label{class_projectile_a5ce13edeecbae1610f5fea229cb508f7} 
+void Projectile\+::check\+Wall\+Collisions (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \&}]{walls}{}\end{DoxyParamCaption})}
+
+
+
+Sprawdza kolizję pocisku z wektorem ścian. 
+
+Jeśli pocisk dotyka ściany, zostaje zdezaktywowany. 
+\begin{DoxyParams}{Parameters}
+{\em walls} & Wektor ścian na planszy \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_projectile_a6aa9b6ef83fedaf348a0b87b441f1394}\index{Projectile@{Projectile}!deactivate@{deactivate}}
+\index{deactivate@{deactivate}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{deactivate()}{deactivate()}}
+{\footnotesize\ttfamily \label{class_projectile_a6aa9b6ef83fedaf348a0b87b441f1394} 
+void Projectile\+::deactivate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dezaktywuje pocisk po trafieniu w cel. 
+
+\Hypertarget{class_projectile_a447fd63b6a40618e971dd656a0938a3a}\index{Projectile@{Projectile}!draw@{draw}}
+\index{draw@{draw}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_projectile_a447fd63b6a40618e971dd656a0938a3a} 
+void Projectile\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window}{}\end{DoxyParamCaption})}
+
+
+
+Rysuje pocisk na ekranie. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Referencja do okna gry \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_projectile_a10206c540f93413b1d0e6a61ef3de996}\index{Projectile@{Projectile}!getBounds@{getBounds}}
+\index{getBounds@{getBounds}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getBounds()}{getBounds()}}
+{\footnotesize\ttfamily \label{class_projectile_a10206c540f93413b1d0e6a61ef3de996} 
+sf\+::\+Float\+Rect Projectile\+::get\+Bounds (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca prostokąt kolizji pocisku. 
+
+\begin{DoxyReturn}{Returns}
+Prostokąt do detekcji kolizji z graczem lub ścianą 
+\end{DoxyReturn}
+\Hypertarget{class_projectile_af5cd30772ad4cb3894629ca76c6b8f79}\index{Projectile@{Projectile}!getDamage@{getDamage}}
+\index{getDamage@{getDamage}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getDamage()}{getDamage()}}
+{\footnotesize\ttfamily \label{class_projectile_af5cd30772ad4cb3894629ca76c6b8f79} 
+int Projectile\+::get\+Damage (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca obrażenia zadawane przez pocisk. 
+
+\begin{DoxyReturn}{Returns}
+Wartość obrażeń 
+\end{DoxyReturn}
+\Hypertarget{class_projectile_aa3107fe7df323250ca2ae0e869994790}\index{Projectile@{Projectile}!isActive@{isActive}}
+\index{isActive@{isActive}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{isActive()}{isActive()}}
+{\footnotesize\ttfamily \label{class_projectile_aa3107fe7df323250ca2ae0e869994790} 
+bool Projectile\+::is\+Active (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Sprawdza czy pocisk jest aktywny. 
+
+\begin{DoxyReturn}{Returns}
+true jeśli pocisk nie trafił i nie wyleciał poza ekran 
+\end{DoxyReturn}
+\Hypertarget{class_projectile_a5bc646de87829b911d6817a6478c353e}\index{Projectile@{Projectile}!update@{update}}
+\index{update@{update}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_projectile_a5bc646de87829b911d6817a6478c353e} 
+void Projectile\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time}{}\end{DoxyParamCaption})}
+
+
+
+Aktualizuje pozycję pocisku. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & Czas od ostatniej klatki w sekundach \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_projectile_af9dcc1b11bd5752a25094f24dba7dbaa}\index{Projectile@{Projectile}!m\_active@{m\_active}}
+\index{m\_active@{m\_active}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_active}{m\_active}}
+{\footnotesize\ttfamily \label{class_projectile_af9dcc1b11bd5752a25094f24dba7dbaa} 
+bool Projectile\+::m\+\_\+active\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Czy pocisk jest aktywny. 
+
+\Hypertarget{class_projectile_a4dffdcf657ee1614eefc48aae987fec6}\index{Projectile@{Projectile}!m\_arrowShape@{m\_arrowShape}}
+\index{m\_arrowShape@{m\_arrowShape}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_arrowShape}{m\_arrowShape}}
+{\footnotesize\ttfamily \label{class_projectile_a4dffdcf657ee1614eefc48aae987fec6} 
+sf\+::\+Rectangle\+Shape Projectile\+::m\+\_\+arrow\+Shape\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Kształt strzały łucznika (kreska) 
+
+\Hypertarget{class_projectile_af3a34caef3dbd193246e8cee660ece1d}\index{Projectile@{Projectile}!m\_damage@{m\_damage}}
+\index{m\_damage@{m\_damage}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_damage}{m\_damage}}
+{\footnotesize\ttfamily \label{class_projectile_af3a34caef3dbd193246e8cee660ece1d} 
+int Projectile\+::m\+\_\+damage\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Obrażenia przy trafieniu. 
+
+\Hypertarget{class_projectile_ad7912b85be992d56ec7d1dbe82c18f59}\index{Projectile@{Projectile}!m\_isArrow@{m\_isArrow}}
+\index{m\_isArrow@{m\_isArrow}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_isArrow}{m\_isArrow}}
+{\footnotesize\ttfamily \label{class_projectile_ad7912b85be992d56ec7d1dbe82c18f59} 
+bool Projectile\+::m\+\_\+is\+Arrow\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Czy to strzała (true) czy pocisk maga (false) 
+
+\Hypertarget{class_projectile_a36c3b047a0f8de7fec36dad0247cfdd1}\index{Projectile@{Projectile}!m\_shape@{m\_shape}}
+\index{m\_shape@{m\_shape}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_shape}{m\_shape}}
+{\footnotesize\ttfamily \label{class_projectile_a36c3b047a0f8de7fec36dad0247cfdd1} 
+sf\+::\+Circle\+Shape Projectile\+::m\+\_\+shape\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Kształt pocisku maga (kółko) 
+
+\Hypertarget{class_projectile_a24cfff6bb865fae37b25aeb8068a4924}\index{Projectile@{Projectile}!m\_speed@{m\_speed}}
+\index{m\_speed@{m\_speed}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_speed}{m\_speed}}
+{\footnotesize\ttfamily \label{class_projectile_a24cfff6bb865fae37b25aeb8068a4924} 
+float Projectile\+::m\+\_\+speed\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Prędkość pocisku w px/s. 
+
+\Hypertarget{class_projectile_ae052b6bf7f25063f1c3b0fff3911d4a0}\index{Projectile@{Projectile}!m\_velocity@{m\_velocity}}
+\index{m\_velocity@{m\_velocity}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{m\_velocity}{m\_velocity}}
+{\footnotesize\ttfamily \label{class_projectile_ae052b6bf7f25063f1c3b0fff3911d4a0} 
+sf\+::\+Vector2f Projectile\+::m\+\_\+velocity\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wektor prędkości (px/s w osiach X i Y) 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_projectile_8h}{Projectile.\+h}}\item 
+src/\mbox{\hyperlink{_projectile_8cpp}{Projectile.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,332 @@
+\doxysection{Wall\+Placer Class Reference}
+\hypertarget{class_wall_placer}{}\label{class_wall_placer}\index{WallPlacer@{WallPlacer}}
+
+
+Zarządza fazą układania ścian przed walką  
+
+
+
+
+{\ttfamily \#include $<$Wall\+Placer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_wall_placer_a66c02f014e8d6c14d8806aa302e5ddbc}{Wall\+Placer}} (int walls\+Per\+Player, float window\+Width, float window\+Height)
+\begin{DoxyCompactList}\small\item\em Konstruktor \doxylink{class_wall_placer}{Wall\+Placer}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_wall_placer_a9a8f28a5eebf3b1d3ce0eecb3fb6f903}{handle\+Input}} (sf\+::\+Keyboard\+::\+Key key)
+\begin{DoxyCompactList}\small\item\em Obsługuje wciśnięcie klawisza przez gracza. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_wall_placer_a1957b9c6a50c9ae207c880568333c3ab}{draw}} (sf\+::\+Render\+Window \&window, sf\+::\+Font \&font) const
+\begin{DoxyCompactList}\small\item\em Rysuje siatkę, ściany, kursor i informacje UI. \end{DoxyCompactList}\item 
+const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \& \mbox{\hyperlink{class_wall_placer_ad6012d96c1cfbf992fb71f6ecea4b205}{get\+Walls}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca wektor postawionych ścian. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_wall_placer_a8408ee3124cca3dca629662931489425}{get\+OffsetX}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca offset siatki w osi X. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_wall_placer_ac5e5de3f3a39b52829f1c4f4560af3bf}{get\+OffsetY}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca offset siatki w osi Y. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_wall_placer_aac25b877128b092ea53b88e4cd8a809d}{get\+Cell\+Size}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca rozmiar jednej kratki siatki. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_wall_placer_aaac3fe37f424dc3da3a6f02c32d3aa7b}{place\+Wall}} (int dx, int dy)
+\begin{DoxyCompactList}\small\item\em Próbuje postawić ścianę między kursorem a sąsiednim węzłem. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_wall_placer_a9137140511a2f02d4a357eec9b56592a}{is\+Valid\+Node}} (int x, int y) const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy węzeł siatki mieści się w granicach planszy. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_wall_placer_a96888734d5903cbd86e8e0cb7885bf9e}{m\+\_\+cell\+Size}}
+\begin{DoxyCompactList}\small\item\em Rozmiar jednej kratki w pikselach. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_wall_placer_a14b741c5d6a08d24568a2c5445630e2b}{m\+\_\+offsetX}}
+\begin{DoxyCompactList}\small\item\em Przesunięcie siatki od lewej krawędzi ekranu. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_wall_placer_a225c979398381f62d58408fb800eb061}{m\+\_\+offsetY}}
+\begin{DoxyCompactList}\small\item\em Przesunięcie siatki od górnej krawędzi ekranu. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_placer_a92796d8d2a4efb7b32eb6b9f6303e110}{m\+\_\+cursorX}}
+\begin{DoxyCompactList}\small\item\em Kolumna węzła na którym stoi kursor (0..GRID\+\_\+\+SIZE) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_placer_a6b5af0cf347dafd4e464dd4a36be1471}{m\+\_\+cursorY}}
+\begin{DoxyCompactList}\small\item\em Wiersz węzła na którym stoi kursor (0..GRID\+\_\+\+SIZE) \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \mbox{\hyperlink{class_wall_placer_a0fb2faef9d60cb93d1a560d0578278b9}{m\+\_\+walls}}
+\begin{DoxyCompactList}\small\item\em Postawione ściany. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_placer_a8bf0f72969692e0c6aa1668cf567d8d0}{m\+\_\+walls\+Per\+Player}}
+\begin{DoxyCompactList}\small\item\em Ile ścian może postawić każdy gracz. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_placer_ae1f4faeca9a1b6959e6e480e1442f20c}{m\+\_\+walls\+Placed}}
+\begin{DoxyCompactList}\small\item\em Łączna liczba postawionych ścian. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_placer_aafb1ef1ca38d523c559287f944d0d204}{m\+\_\+current\+Player}}
+\begin{DoxyCompactList}\small\item\em Indeks gracza którego tura (0 lub 1) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \mbox{\hyperlink{class_wall_placer_a5e668290832a733834ba09d9d80c6285}{GRID\+\_\+\+SIZE}} = 16
+\begin{DoxyCompactList}\small\item\em Liczba kratek siatki w każdym wymiarze. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Zarządza fazą układania ścian przed walką 
+
+Klasa wyświetla siatkę 16x16 na ekranie i pozwala graczom na zmianę stawiać ściany na krawędziach kratek.
+
+Sterowanie\+:
+\begin{DoxyItemize}
+\item WSAD\+: ruch kursora po węzłach siatki
+\item Strzałki\+: postawienie ściany w danym kierunku od kursora
+\end{DoxyItemize}
+
+Po postawieniu ściany tura przechodzi automatycznie do drugiego gracza. Faza kończy się gdy obaj gracze postawią wszystkie dostępne ściany. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_wall_placer_a66c02f014e8d6c14d8806aa302e5ddbc}\index{WallPlacer@{WallPlacer}!WallPlacer@{WallPlacer}}
+\index{WallPlacer@{WallPlacer}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{WallPlacer()}{WallPlacer()}}
+{\footnotesize\ttfamily \label{class_wall_placer_a66c02f014e8d6c14d8806aa302e5ddbc} 
+Wall\+Placer\+::\+Wall\+Placer (\begin{DoxyParamCaption}\item[{int}]{walls\+Per\+Player}{, }\item[{float}]{window\+Width}{, }\item[{float}]{window\+Height}{}\end{DoxyParamCaption})}
+
+
+
+Konstruktor \doxylink{class_wall_placer}{Wall\+Placer}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walls\+Per\+Player} & Liczba ścian do postawienia przez każdego gracza \\
+\hline
+{\em window\+Width} & Szerokość okna gry w pikselach \\
+\hline
+{\em window\+Height} & Wysokość okna gry w pikselach \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_wall_placer_a1957b9c6a50c9ae207c880568333c3ab}\index{WallPlacer@{WallPlacer}!draw@{draw}}
+\index{draw@{draw}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_wall_placer_a1957b9c6a50c9ae207c880568333c3ab} 
+void Wall\+Placer\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window}{, }\item[{sf\+::\+Font \&}]{font}{}\end{DoxyParamCaption}) const}
+
+
+
+Rysuje siatkę, ściany, kursor i informacje UI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Referencja do okna gry \\
+\hline
+{\em font} & Referencja do czcionki używanej do tekstu UI \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_wall_placer_aac25b877128b092ea53b88e4cd8a809d}\index{WallPlacer@{WallPlacer}!getCellSize@{getCellSize}}
+\index{getCellSize@{getCellSize}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{getCellSize()}{getCellSize()}}
+{\footnotesize\ttfamily \label{class_wall_placer_aac25b877128b092ea53b88e4cd8a809d} 
+float Wall\+Placer\+::get\+Cell\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Zwraca rozmiar jednej kratki siatki. 
+
+\begin{DoxyReturn}{Returns}
+Rozmiar kratki w pikselach 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_a8408ee3124cca3dca629662931489425}\index{WallPlacer@{WallPlacer}!getOffsetX@{getOffsetX}}
+\index{getOffsetX@{getOffsetX}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{getOffsetX()}{getOffsetX()}}
+{\footnotesize\ttfamily \label{class_wall_placer_a8408ee3124cca3dca629662931489425} 
+float Wall\+Placer\+::get\+OffsetX (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Zwraca offset siatki w osi X. 
+
+\begin{DoxyReturn}{Returns}
+Przesunięcie siatki od lewej krawędzi ekranu w pikselach 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_ac5e5de3f3a39b52829f1c4f4560af3bf}\index{WallPlacer@{WallPlacer}!getOffsetY@{getOffsetY}}
+\index{getOffsetY@{getOffsetY}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{getOffsetY()}{getOffsetY()}}
+{\footnotesize\ttfamily \label{class_wall_placer_ac5e5de3f3a39b52829f1c4f4560af3bf} 
+float Wall\+Placer\+::get\+OffsetY (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Zwraca offset siatki w osi Y. 
+
+\begin{DoxyReturn}{Returns}
+Przesunięcie siatki od górnej krawędzi ekranu w pikselach 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_ad6012d96c1cfbf992fb71f6ecea4b205}\index{WallPlacer@{WallPlacer}!getWalls@{getWalls}}
+\index{getWalls@{getWalls}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{getWalls()}{getWalls()}}
+{\footnotesize\ttfamily \label{class_wall_placer_ad6012d96c1cfbf992fb71f6ecea4b205} 
+const std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \& Wall\+Placer\+::get\+Walls (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca wektor postawionych ścian. 
+
+Wywoływane przez \doxylink{class_game}{Game} po zakończeniu fazy żeby przenieść ściany do właściwej rozgrywki. \begin{DoxyReturn}{Returns}
+Stała referencja do wektora unique\+\_\+ptr ścian 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_a9a8f28a5eebf3b1d3ce0eecb3fb6f903}\index{WallPlacer@{WallPlacer}!handleInput@{handleInput}}
+\index{handleInput@{handleInput}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{handleInput()}{handleInput()}}
+{\footnotesize\ttfamily \label{class_wall_placer_a9a8f28a5eebf3b1d3ce0eecb3fb6f903} 
+bool Wall\+Placer\+::handle\+Input (\begin{DoxyParamCaption}\item[{sf\+::\+Keyboard\+::\+Key}]{key}{}\end{DoxyParamCaption})}
+
+
+
+Obsługuje wciśnięcie klawisza przez gracza. 
+
+Przetwarza klawisze ruchu kursora (WSAD) oraz stawiania ścian (strzałki). 
+\begin{DoxyParams}{Parameters}
+{\em key} & Kod wciśniętego klawisza SFML \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true jeśli faza układania ścian dobiegła końca 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_a9137140511a2f02d4a357eec9b56592a}\index{WallPlacer@{WallPlacer}!isValidNode@{isValidNode}}
+\index{isValidNode@{isValidNode}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{isValidNode()}{isValidNode()}}
+{\footnotesize\ttfamily \label{class_wall_placer_a9137140511a2f02d4a357eec9b56592a} 
+bool Wall\+Placer\+::is\+Valid\+Node (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sprawdza czy węzeł siatki mieści się w granicach planszy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Kolumna węzła \\
+\hline
+{\em y} & Wiersz węzła \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true jeśli węzeł jest poprawny (0..GRID\+\_\+\+SIZE) 
+\end{DoxyReturn}
+\Hypertarget{class_wall_placer_aaac3fe37f424dc3da3a6f02c32d3aa7b}\index{WallPlacer@{WallPlacer}!placeWall@{placeWall}}
+\index{placeWall@{placeWall}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{placeWall()}{placeWall()}}
+{\footnotesize\ttfamily \label{class_wall_placer_aaac3fe37f424dc3da3a6f02c32d3aa7b} 
+void Wall\+Placer\+::place\+Wall (\begin{DoxyParamCaption}\item[{int}]{dx}{, }\item[{int}]{dy}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Próbuje postawić ścianę między kursorem a sąsiednim węzłem. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dx} & Przesunięcie w osi X (-\/1, 0 lub 1) \\
+\hline
+{\em dy} & Przesunięcie w osi Y (-\/1, 0 lub 1) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_wall_placer_a5e668290832a733834ba09d9d80c6285}\index{WallPlacer@{WallPlacer}!GRID\_SIZE@{GRID\_SIZE}}
+\index{GRID\_SIZE@{GRID\_SIZE}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{GRID\_SIZE}{GRID\_SIZE}}
+{\footnotesize\ttfamily \label{class_wall_placer_a5e668290832a733834ba09d9d80c6285} 
+const int Wall\+Placer\+::\+GRID\+\_\+\+SIZE = 16\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Liczba kratek siatki w każdym wymiarze. 
+
+\Hypertarget{class_wall_placer_a96888734d5903cbd86e8e0cb7885bf9e}\index{WallPlacer@{WallPlacer}!m\_cellSize@{m\_cellSize}}
+\index{m\_cellSize@{m\_cellSize}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_cellSize}{m\_cellSize}}
+{\footnotesize\ttfamily \label{class_wall_placer_a96888734d5903cbd86e8e0cb7885bf9e} 
+float Wall\+Placer\+::m\+\_\+cell\+Size\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Rozmiar jednej kratki w pikselach. 
+
+\Hypertarget{class_wall_placer_aafb1ef1ca38d523c559287f944d0d204}\index{WallPlacer@{WallPlacer}!m\_currentPlayer@{m\_currentPlayer}}
+\index{m\_currentPlayer@{m\_currentPlayer}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_currentPlayer}{m\_currentPlayer}}
+{\footnotesize\ttfamily \label{class_wall_placer_aafb1ef1ca38d523c559287f944d0d204} 
+int Wall\+Placer\+::m\+\_\+current\+Player\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Indeks gracza którego tura (0 lub 1) 
+
+\Hypertarget{class_wall_placer_a92796d8d2a4efb7b32eb6b9f6303e110}\index{WallPlacer@{WallPlacer}!m\_cursorX@{m\_cursorX}}
+\index{m\_cursorX@{m\_cursorX}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_cursorX}{m\_cursorX}}
+{\footnotesize\ttfamily \label{class_wall_placer_a92796d8d2a4efb7b32eb6b9f6303e110} 
+int Wall\+Placer\+::m\+\_\+cursorX\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Kolumna węzła na którym stoi kursor (0..GRID\+\_\+\+SIZE) 
+
+\Hypertarget{class_wall_placer_a6b5af0cf347dafd4e464dd4a36be1471}\index{WallPlacer@{WallPlacer}!m\_cursorY@{m\_cursorY}}
+\index{m\_cursorY@{m\_cursorY}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_cursorY}{m\_cursorY}}
+{\footnotesize\ttfamily \label{class_wall_placer_a6b5af0cf347dafd4e464dd4a36be1471} 
+int Wall\+Placer\+::m\+\_\+cursorY\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wiersz węzła na którym stoi kursor (0..GRID\+\_\+\+SIZE) 
+
+\Hypertarget{class_wall_placer_a14b741c5d6a08d24568a2c5445630e2b}\index{WallPlacer@{WallPlacer}!m\_offsetX@{m\_offsetX}}
+\index{m\_offsetX@{m\_offsetX}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_offsetX}{m\_offsetX}}
+{\footnotesize\ttfamily \label{class_wall_placer_a14b741c5d6a08d24568a2c5445630e2b} 
+float Wall\+Placer\+::m\+\_\+offsetX\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Przesunięcie siatki od lewej krawędzi ekranu. 
+
+\Hypertarget{class_wall_placer_a225c979398381f62d58408fb800eb061}\index{WallPlacer@{WallPlacer}!m\_offsetY@{m\_offsetY}}
+\index{m\_offsetY@{m\_offsetY}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_offsetY}{m\_offsetY}}
+{\footnotesize\ttfamily \label{class_wall_placer_a225c979398381f62d58408fb800eb061} 
+float Wall\+Placer\+::m\+\_\+offsetY\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Przesunięcie siatki od górnej krawędzi ekranu. 
+
+\Hypertarget{class_wall_placer_a0fb2faef9d60cb93d1a560d0578278b9}\index{WallPlacer@{WallPlacer}!m\_walls@{m\_walls}}
+\index{m\_walls@{m\_walls}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_walls}{m\_walls}}
+{\footnotesize\ttfamily \label{class_wall_placer_a0fb2faef9d60cb93d1a560d0578278b9} 
+std\+::vector$<$std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{class_wall}{Wall}}$>$ $>$ Wall\+Placer\+::m\+\_\+walls\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Postawione ściany. 
+
+\Hypertarget{class_wall_placer_a8bf0f72969692e0c6aa1668cf567d8d0}\index{WallPlacer@{WallPlacer}!m\_wallsPerPlayer@{m\_wallsPerPlayer}}
+\index{m\_wallsPerPlayer@{m\_wallsPerPlayer}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_wallsPerPlayer}{m\_wallsPerPlayer}}
+{\footnotesize\ttfamily \label{class_wall_placer_a8bf0f72969692e0c6aa1668cf567d8d0} 
+int Wall\+Placer\+::m\+\_\+walls\+Per\+Player\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Ile ścian może postawić każdy gracz. 
+
+\Hypertarget{class_wall_placer_ae1f4faeca9a1b6959e6e480e1442f20c}\index{WallPlacer@{WallPlacer}!m\_wallsPlaced@{m\_wallsPlaced}}
+\index{m\_wallsPlaced@{m\_wallsPlaced}!WallPlacer@{WallPlacer}}
+\doxysubsubsection{\texorpdfstring{m\_wallsPlaced}{m\_wallsPlaced}}
+{\footnotesize\ttfamily \label{class_wall_placer_ae1f4faeca9a1b6959e6e480e1442f20c} 
+int Wall\+Placer\+::m\+\_\+walls\+Placed\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Łączna liczba postawionych ścian. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_wall_placer_8h}{Wall\+Placer.\+h}}\item 
+src/\mbox{\hyperlink{_wall_placer_8cpp}{Wall\+Placer.\+cpp}}\end{DoxyCompactItemize}

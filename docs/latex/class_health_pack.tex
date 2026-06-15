@@ -1,0 +1,192 @@
+\doxysection{Health\+Pack Class Reference}
+\hypertarget{class_health_pack}{}\label{class_health_pack}\index{HealthPack@{HealthPack}}
+
+
+Apteczka pojawiająca się losowo na planszy.  
+
+
+
+
+{\ttfamily \#include $<$Health\+Pack.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_health_pack_a5b2ae55ab1e4dfd54ac5ee48941cbecc}{Health\+Pack}} (float x, float y, int healing=30)
+\begin{DoxyCompactList}\small\item\em Konstruktor apteczki. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_health_pack_a2da17ba9f265b823673bd1cde8dc1dc5}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em Rysuje apteczkę na ekranie. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{class_health_pack_a7b5376a64f971ff2974ea0c0d3a1d16d}{get\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca prostokąt kolizji apteczki. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_health_pack_ae451294f1ffb1b4e8a688c77edef037b}{is\+Active}} () const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy apteczka jest aktywna. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_health_pack_a5fd00e0063ec850cf4bf11aa895b7e2a}{collect}} ()
+\begin{DoxyCompactList}\small\item\em Dezaktywuje apteczkę po podniesieniu przez gracza. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_health_pack_ae7774a078ff86a6dc1888675b1cc62f6}{get\+Healing}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca ile HP przywraca apteczka. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_health_pack_af43681585d837c07ed23c847e693b205}{m\+\_\+horizontal}}
+\begin{DoxyCompactList}\small\item\em Pozioma belka krzyżyka. \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_health_pack_a4af40d69b0fde75cb96a53e960a4ed0d}{m\+\_\+vertical}}
+\begin{DoxyCompactList}\small\item\em Pionowa belka krzyżyka. \end{DoxyCompactList}\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_health_pack_a4fd517dc76ae0b27d7994bd38f253802}{m\+\_\+background}}
+\begin{DoxyCompactList}\small\item\em Tło apteczki. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_health_pack_ab0e7f26f1b798da3df055de885ade30a}{m\+\_\+active}}
+\begin{DoxyCompactList}\small\item\em Czy apteczka jest aktywna. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_health_pack_af0272950b709b3c65a8127f359044534}{m\+\_\+healing}}
+\begin{DoxyCompactList}\small\item\em Ile HP przywraca. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Apteczka pojawiająca się losowo na planszy. 
+
+Gracz który wejdzie na apteczkę odzyskuje określoną ilość HP. Apteczka znika po podniesieniu. Wizualnie reprezentowana jako zielony krzyżyk na planszy. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_health_pack_a5b2ae55ab1e4dfd54ac5ee48941cbecc}\index{HealthPack@{HealthPack}!HealthPack@{HealthPack}}
+\index{HealthPack@{HealthPack}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{HealthPack()}{HealthPack()}}
+{\footnotesize\ttfamily \label{class_health_pack_a5b2ae55ab1e4dfd54ac5ee48941cbecc} 
+Health\+Pack\+::\+Health\+Pack (\begin{DoxyParamCaption}\item[{float}]{x}{, }\item[{float}]{y}{, }\item[{int}]{healing}{ = {\ttfamily 30}}\end{DoxyParamCaption})}
+
+
+
+Konstruktor apteczki. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & Pozycja X w pikselach \\
+\hline
+{\em y} & Pozycja Y w pikselach \\
+\hline
+{\em healing} & Ile HP przywraca apteczka \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_health_pack_a5fd00e0063ec850cf4bf11aa895b7e2a}\index{HealthPack@{HealthPack}!collect@{collect}}
+\index{collect@{collect}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{collect()}{collect()}}
+{\footnotesize\ttfamily \label{class_health_pack_a5fd00e0063ec850cf4bf11aa895b7e2a} 
+void Health\+Pack\+::collect (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dezaktywuje apteczkę po podniesieniu przez gracza. 
+
+\Hypertarget{class_health_pack_a2da17ba9f265b823673bd1cde8dc1dc5}\index{HealthPack@{HealthPack}!draw@{draw}}
+\index{draw@{draw}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_health_pack_a2da17ba9f265b823673bd1cde8dc1dc5} 
+void Health\+Pack\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window}{}\end{DoxyParamCaption}) const}
+
+
+
+Rysuje apteczkę na ekranie. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Referencja do okna gry \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_health_pack_a7b5376a64f971ff2974ea0c0d3a1d16d}\index{HealthPack@{HealthPack}!getBounds@{getBounds}}
+\index{getBounds@{getBounds}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{getBounds()}{getBounds()}}
+{\footnotesize\ttfamily \label{class_health_pack_a7b5376a64f971ff2974ea0c0d3a1d16d} 
+sf\+::\+Float\+Rect Health\+Pack\+::get\+Bounds (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca prostokąt kolizji apteczki. 
+
+\begin{DoxyReturn}{Returns}
+Prostokąt do detekcji kolizji z graczem 
+\end{DoxyReturn}
+\Hypertarget{class_health_pack_ae7774a078ff86a6dc1888675b1cc62f6}\index{HealthPack@{HealthPack}!getHealing@{getHealing}}
+\index{getHealing@{getHealing}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{getHealing()}{getHealing()}}
+{\footnotesize\ttfamily \label{class_health_pack_ae7774a078ff86a6dc1888675b1cc62f6} 
+int Health\+Pack\+::get\+Healing (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca ile HP przywraca apteczka. 
+
+\begin{DoxyReturn}{Returns}
+Wartość leczenia 
+\end{DoxyReturn}
+\Hypertarget{class_health_pack_ae451294f1ffb1b4e8a688c77edef037b}\index{HealthPack@{HealthPack}!isActive@{isActive}}
+\index{isActive@{isActive}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{isActive()}{isActive()}}
+{\footnotesize\ttfamily \label{class_health_pack_ae451294f1ffb1b4e8a688c77edef037b} 
+bool Health\+Pack\+::is\+Active (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Sprawdza czy apteczka jest aktywna. 
+
+\begin{DoxyReturn}{Returns}
+true jeśli apteczka nie została jeszcze podniesiona 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_health_pack_ab0e7f26f1b798da3df055de885ade30a}\index{HealthPack@{HealthPack}!m\_active@{m\_active}}
+\index{m\_active@{m\_active}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{m\_active}{m\_active}}
+{\footnotesize\ttfamily \label{class_health_pack_ab0e7f26f1b798da3df055de885ade30a} 
+bool Health\+Pack\+::m\+\_\+active\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Czy apteczka jest aktywna. 
+
+\Hypertarget{class_health_pack_a4fd517dc76ae0b27d7994bd38f253802}\index{HealthPack@{HealthPack}!m\_background@{m\_background}}
+\index{m\_background@{m\_background}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{m\_background}{m\_background}}
+{\footnotesize\ttfamily \label{class_health_pack_a4fd517dc76ae0b27d7994bd38f253802} 
+sf\+::\+Rectangle\+Shape Health\+Pack\+::m\+\_\+background\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Tło apteczki. 
+
+\Hypertarget{class_health_pack_af0272950b709b3c65a8127f359044534}\index{HealthPack@{HealthPack}!m\_healing@{m\_healing}}
+\index{m\_healing@{m\_healing}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{m\_healing}{m\_healing}}
+{\footnotesize\ttfamily \label{class_health_pack_af0272950b709b3c65a8127f359044534} 
+int Health\+Pack\+::m\+\_\+healing\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Ile HP przywraca. 
+
+\Hypertarget{class_health_pack_af43681585d837c07ed23c847e693b205}\index{HealthPack@{HealthPack}!m\_horizontal@{m\_horizontal}}
+\index{m\_horizontal@{m\_horizontal}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{m\_horizontal}{m\_horizontal}}
+{\footnotesize\ttfamily \label{class_health_pack_af43681585d837c07ed23c847e693b205} 
+sf\+::\+Rectangle\+Shape Health\+Pack\+::m\+\_\+horizontal\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pozioma belka krzyżyka. 
+
+\Hypertarget{class_health_pack_a4af40d69b0fde75cb96a53e960a4ed0d}\index{HealthPack@{HealthPack}!m\_vertical@{m\_vertical}}
+\index{m\_vertical@{m\_vertical}!HealthPack@{HealthPack}}
+\doxysubsubsection{\texorpdfstring{m\_vertical}{m\_vertical}}
+{\footnotesize\ttfamily \label{class_health_pack_a4af40d69b0fde75cb96a53e960a4ed0d} 
+sf\+::\+Rectangle\+Shape Health\+Pack\+::m\+\_\+vertical\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Pionowa belka krzyżyka. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_health_pack_8h}{Health\+Pack.\+h}}\item 
+src/\mbox{\hyperlink{_healthpack_8cpp}{Healthpack.\+cpp}}\end{DoxyCompactItemize}

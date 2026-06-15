@@ -1,0 +1,51 @@
+\doxysection{Wall\+Placer.\+h}
+\hypertarget{_wall_placer_8h_source}{}\label{_wall_placer_8h_source}\index{src/WallPlacer.h@{src/WallPlacer.h}}
+\mbox{\hyperlink{_wall_placer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <SFML/Graphics.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_wall_8h}{Wall.h}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_wall_placer}{WallPlacer}}}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{class_wall_placer_a66c02f014e8d6c14d8806aa302e5ddbc}{WallPlacer}}(\textcolor{keywordtype}{int}\ wallsPerPlayer,\ \textcolor{keywordtype}{float}\ windowWidth,\ \textcolor{keywordtype}{float}\ windowHeight);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_wall_placer_a9a8f28a5eebf3b1d3ce0eecb3fb6f903}{handleInput}}(sf::Keyboard::Key\ key);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_wall_placer_a1957b9c6a50c9ae207c880568333c3ab}{draw}}(sf::RenderWindow\&\ window,\ sf::Font\&\ font)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::unique\_ptr<Wall>>\&\ \mbox{\hyperlink{class_wall_placer_ad6012d96c1cfbf992fb71f6ecea4b205}{getWalls}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_a8408ee3124cca3dca629662931489425}{getOffsetX}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_wall_placer_a14b741c5d6a08d24568a2c5445630e2b}{m\_offsetX}};\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_ac5e5de3f3a39b52829f1c4f4560af3bf}{getOffsetY}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_wall_placer_a225c979398381f62d58408fb800eb061}{m\_offsetY}};\ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_aac25b877128b092ea53b88e4cd8a809d}{getCellSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_wall_placer_a96888734d5903cbd86e8e0cb7885bf9e}{m\_cellSize}};\ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_wall_placer_aaac3fe37f424dc3da3a6f02c32d3aa7b}{placeWall}}(\textcolor{keywordtype}{int}\ dx,\ \textcolor{keywordtype}{int}\ dy);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_wall_placer_a9137140511a2f02d4a357eec9b56592a}{isValidNode}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_a5e668290832a733834ba09d9d80c6285}{GRID\_SIZE}}\ =\ 16;\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_a96888734d5903cbd86e8e0cb7885bf9e}{m\_cellSize}};\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_a14b741c5d6a08d24568a2c5445630e2b}{m\_offsetX}};\ \ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_wall_placer_a225c979398381f62d58408fb800eb061}{m\_offsetY}};\ \ }
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_a92796d8d2a4efb7b32eb6b9f6303e110}{m\_cursorX}};\ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_a6b5af0cf347dafd4e464dd4a36be1471}{m\_cursorY}};\ \ \ \ }
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ std::vector<std::unique\_ptr<Wall>>\ \mbox{\hyperlink{class_wall_placer_a0fb2faef9d60cb93d1a560d0578278b9}{m\_walls}};\ }
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_a8bf0f72969692e0c6aa1668cf567d8d0}{m\_wallsPerPlayer}};\ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_ae1f4faeca9a1b6959e6e480e1442f20c}{m\_wallsPlaced}};\ \ \ \ \ \ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_wall_placer_aafb1ef1ca38d523c559287f944d0d204}{m\_currentPlayer}};\ \ \ \ }
+\DoxyCodeLine{00110\ \};}
+
+\end{DoxyCode}

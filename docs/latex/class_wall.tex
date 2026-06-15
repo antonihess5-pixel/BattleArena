@@ -1,0 +1,202 @@
+\doxysection{Wall Class Reference}
+\hypertarget{class_wall}{}\label{class_wall}\index{Wall@{Wall}}
+
+
+Reprezentuje pojedynczą ścianę na planszy.  
+
+
+
+
+{\ttfamily \#include $<$Wall.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_wall_a94c8f2bfa39690e93c929aebae84e7aa}{Wall}} (int x1, int y1, int x2, int y2, float cell\+Size, float offsetX=0.f, float offsetY=0.f)
+\begin{DoxyCompactList}\small\item\em Konstruktor ściany. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_wall_a81d0c8d9c4a80ee4fcdc6f026affcdf7}{Wall}} (const \mbox{\hyperlink{class_wall}{Wall}} \&other)=default
+\begin{DoxyCompactList}\small\item\em Konstruktor kopiujący. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_wall_ada89ea5e5928c0613ef2857e6363c2a7}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em Rysuje ścianę na ekranie. \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{class_wall_ad37e75cfc344b2bf679a1df6e93d4391}{get\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em Zwraca prostokąt kolizji ściany. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_wall_a72d07afcd408af2c16123465f2d16171}{is\+Same\+Position}} (int x1, int y1, int x2, int y2) const
+\begin{DoxyCompactList}\small\item\em Sprawdza czy ściana zajmuje podaną pozycję w siatce. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Rectangle\+Shape \mbox{\hyperlink{class_wall_a9e524bc2edae810e6aad9cccdd505e30}{m\+\_\+shape}}
+\begin{DoxyCompactList}\small\item\em Prostokąt reprezentujący ścianę \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_adfe48cd353f8ab29a10f5a45cf1434da}{m\+\_\+x1}}
+\begin{DoxyCompactList}\small\item\em Kolumna pierwszego węzła siatki. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_a1787cf4061da317326a3dadc7ab334e6}{m\+\_\+y1}}
+\begin{DoxyCompactList}\small\item\em Wiersz pierwszego węzła siatki. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_a4e519a0ec365d72fd59d65894c9caead}{m\+\_\+x2}}
+\begin{DoxyCompactList}\small\item\em Kolumna drugiego węzła siatki. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_wall_a3b1ce41c6b4d21f00a5763da8b462569}{m\+\_\+y2}}
+\begin{DoxyCompactList}\small\item\em Wiersz drugiego węzła siatki. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Reprezentuje pojedynczą ścianę na planszy. 
+
+Ściana leży na krawędzi między dwoma węzłami siatki i może być\+:
+\begin{DoxyItemize}
+\item Pozioma\+: węzły mają takie samo Y, różne X
+\item Pionowa\+: węzły mają takie samo X, różne Y
+\end{DoxyItemize}
+
+Ściany blokują ruch graczy i niszczą pociski przy kontakcie. Pozycja ściany w pikselach jest obliczana na podstawie współrzędnych węzłów, rozmiaru kratki i offsetu siatki. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_wall_a94c8f2bfa39690e93c929aebae84e7aa}\index{Wall@{Wall}!Wall@{Wall}}
+\index{Wall@{Wall}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{Wall()}{Wall()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_wall_a94c8f2bfa39690e93c929aebae84e7aa} 
+Wall\+::\+Wall (\begin{DoxyParamCaption}\item[{int}]{x1}{, }\item[{int}]{y1}{, }\item[{int}]{x2}{, }\item[{int}]{y2}{, }\item[{float}]{cell\+Size}{, }\item[{float}]{offsetX}{ = {\ttfamily 0.f}, }\item[{float}]{offsetY}{ = {\ttfamily 0.f}}\end{DoxyParamCaption})}
+
+
+
+Konstruktor ściany. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x1} & Kolumna pierwszego węzła siatki (0..16) \\
+\hline
+{\em y1} & Wiersz pierwszego węzła siatki (0..16) \\
+\hline
+{\em x2} & Kolumna drugiego węzła siatki (0..16) \\
+\hline
+{\em y2} & Wiersz drugiego węzła siatki (0..16) \\
+\hline
+{\em cell\+Size} & Rozmiar jednej kratki siatki w pikselach \\
+\hline
+{\em offsetX} & Przesunięcie siatki od lewej krawędzi ekranu (domyślnie 0) \\
+\hline
+{\em offsetY} & Przesunięcie siatki od górnej krawędzi ekranu (domyślnie 0) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_wall_a81d0c8d9c4a80ee4fcdc6f026affcdf7}\index{Wall@{Wall}!Wall@{Wall}}
+\index{Wall@{Wall}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{Wall()}{Wall()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_wall_a81d0c8d9c4a80ee4fcdc6f026affcdf7} 
+Wall\+::\+Wall (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_wall}{Wall}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Konstruktor kopiujący. 
+
+Wymagany do przenoszenia ścian z \doxylink{class_wall_placer}{Wall\+Placer} do \doxylink{class_game}{Game} po zakończeniu fazy układania. Kopiuje wszystkie pola włącznie z kształtem SFML. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_wall_ada89ea5e5928c0613ef2857e6363c2a7}\index{Wall@{Wall}!draw@{draw}}
+\index{draw@{draw}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_wall_ada89ea5e5928c0613ef2857e6363c2a7} 
+void Wall\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window}{}\end{DoxyParamCaption}) const}
+
+
+
+Rysuje ścianę na ekranie. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & Referencja do okna gry \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_wall_ad37e75cfc344b2bf679a1df6e93d4391}\index{Wall@{Wall}!getBounds@{getBounds}}
+\index{getBounds@{getBounds}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{getBounds()}{getBounds()}}
+{\footnotesize\ttfamily \label{class_wall_ad37e75cfc344b2bf679a1df6e93d4391} 
+sf\+::\+Float\+Rect Wall\+::get\+Bounds (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Zwraca prostokąt kolizji ściany. 
+
+\begin{DoxyReturn}{Returns}
+Prostokąt używany do detekcji kolizji z graczem i pociskami 
+\end{DoxyReturn}
+\Hypertarget{class_wall_a72d07afcd408af2c16123465f2d16171}\index{Wall@{Wall}!isSamePosition@{isSamePosition}}
+\index{isSamePosition@{isSamePosition}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{isSamePosition()}{isSamePosition()}}
+{\footnotesize\ttfamily \label{class_wall_a72d07afcd408af2c16123465f2d16171} 
+bool Wall\+::is\+Same\+Position (\begin{DoxyParamCaption}\item[{int}]{x1}{, }\item[{int}]{y1}{, }\item[{int}]{x2}{, }\item[{int}]{y2}{}\end{DoxyParamCaption}) const}
+
+
+
+Sprawdza czy ściana zajmuje podaną pozycję w siatce. 
+
+Sprawdzanie jest symetryczne\+: ściana A→B jest taka sama jak B→A. Używane aby zapobiec postawieniu dwóch ścian w tym samym miejscu. 
+\begin{DoxyParams}{Parameters}
+{\em x1} & Kolumna pierwszego węzła \\
+\hline
+{\em y1} & Wiersz pierwszego węzła \\
+\hline
+{\em x2} & Kolumna drugiego węzła \\
+\hline
+{\em y2} & Wiersz drugiego węzła \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true jeśli ściana leży między tymi węzłami 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_wall_a9e524bc2edae810e6aad9cccdd505e30}\index{Wall@{Wall}!m\_shape@{m\_shape}}
+\index{m\_shape@{m\_shape}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{m\_shape}{m\_shape}}
+{\footnotesize\ttfamily \label{class_wall_a9e524bc2edae810e6aad9cccdd505e30} 
+sf\+::\+Rectangle\+Shape Wall\+::m\+\_\+shape\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Prostokąt reprezentujący ścianę 
+
+\Hypertarget{class_wall_adfe48cd353f8ab29a10f5a45cf1434da}\index{Wall@{Wall}!m\_x1@{m\_x1}}
+\index{m\_x1@{m\_x1}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{m\_x1}{m\_x1}}
+{\footnotesize\ttfamily \label{class_wall_adfe48cd353f8ab29a10f5a45cf1434da} 
+int Wall\+::m\+\_\+x1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Kolumna pierwszego węzła siatki. 
+
+\Hypertarget{class_wall_a4e519a0ec365d72fd59d65894c9caead}\index{Wall@{Wall}!m\_x2@{m\_x2}}
+\index{m\_x2@{m\_x2}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{m\_x2}{m\_x2}}
+{\footnotesize\ttfamily \label{class_wall_a4e519a0ec365d72fd59d65894c9caead} 
+int Wall\+::m\+\_\+x2\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Kolumna drugiego węzła siatki. 
+
+\Hypertarget{class_wall_a1787cf4061da317326a3dadc7ab334e6}\index{Wall@{Wall}!m\_y1@{m\_y1}}
+\index{m\_y1@{m\_y1}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{m\_y1}{m\_y1}}
+{\footnotesize\ttfamily \label{class_wall_a1787cf4061da317326a3dadc7ab334e6} 
+int Wall\+::m\+\_\+y1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wiersz pierwszego węzła siatki. 
+
+\Hypertarget{class_wall_a3b1ce41c6b4d21f00a5763da8b462569}\index{Wall@{Wall}!m\_y2@{m\_y2}}
+\index{m\_y2@{m\_y2}!Wall@{Wall}}
+\doxysubsubsection{\texorpdfstring{m\_y2}{m\_y2}}
+{\footnotesize\ttfamily \label{class_wall_a3b1ce41c6b4d21f00a5763da8b462569} 
+int Wall\+::m\+\_\+y2\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wiersz drugiego węzła siatki. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_wall_8h}{Wall.\+h}}\item 
+src/\mbox{\hyperlink{_wall_8cpp}{Wall.\+cpp}}\end{DoxyCompactItemize}

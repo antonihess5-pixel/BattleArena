@@ -1,0 +1,394 @@
+\doxysection{Game Class Reference}
+\hypertarget{class_game}{}\label{class_game}\index{Game@{Game}}
+
+
+Główna klasa gry zarządzająca całą logiką i renderowaniem.  
+
+
+
+
+{\ttfamily \#include $<$Game.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_game_ad59df6562a58a614fda24622d3715b65}{Game}} ()
+\begin{DoxyCompactList}\small\item\em Konstruktor gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa}{run}} ()
+\begin{DoxyCompactList}\small\item\em Uruchamia główną pętlę gry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_game_a79f698dda206dd7a9bed28b3f88bdc38}{process\+Events}} ()
+\begin{DoxyCompactList}\small\item\em Przetwarza zdarzenia systemu (klawiatura, zamknięcie okna) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a419466336fad97182f5051e11f541636}{update}} (float delta\+Time)
+\begin{DoxyCompactList}\small\item\em Aktualizuje logikę gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a15ddd769261d923827a3cdf41499c843}{render}} ()
+\begin{DoxyCompactList}\small\item\em Renderuje aktualny stan gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_ad4b2332d1450948bcb468a519b23c126}{check\+Combat}} ()
+\begin{DoxyCompactList}\small\item\em Sprawdza kolizje bojowe między graczami. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a277e729a12bf9f5aa4e45457edb96d79}{render\+Menu}} ()
+\begin{DoxyCompactList}\small\item\em Renderuje ekran głównego menu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_acf9096c3f9cf50df02fd4c36aa7b882f}{render\+Character\+Select}} ()
+\begin{DoxyCompactList}\small\item\em Renderuje ekran wyboru postaci. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_ad6b50e63ca681c1087167ca986f2e6ed}{render\+Game\+Over}} ()
+\begin{DoxyCompactList}\small\item\em Renderuje ekran końca gry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a47c726a80fd133c0a4f6b8fba56d8832}{reset\+Game}} ()
+\begin{DoxyCompactList}\small\item\em Resetuje grę do stanu wyboru postaci. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a735d35cc04aef0e41f0a34a180b122ce}{create\+Border\+Walls}} ()
+\begin{DoxyCompactList}\small\item\em Tworzy ściany dookoła areny. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_player_base}{Player\+Base}} $>$ \mbox{\hyperlink{class_game_a25de60c29b294d1cf9c1b6625fc5607b}{create\+Player}} (int character\+Index, float startX, float startY, sf\+::\+Keyboard\+::\+Key up\+Key, sf\+::\+Keyboard\+::\+Key down\+Key, sf\+::\+Keyboard\+::\+Key left\+Key, sf\+::\+Keyboard\+::\+Key right\+Key, sf\+::\+Keyboard\+::\+Key attack\+Key)
+\begin{DoxyCompactList}\small\item\em Fabryka graczy -\/ tworzy obiekt odpowiedniej klasy postaci. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_aaf9068be39eabc83a0dfa034e82b6659}{update\+Health\+Packs}} ()
+\begin{DoxyCompactList}\small\item\em Aktualizuje apteczki -\/ sprawdza kolizje z graczami. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_a708f5f0640afc56e4d70d0b46f76655c}{spawn\+Health\+Pack}} ()
+\begin{DoxyCompactList}\small\item\em Próbuje spawnnować nową apteczkę na losowej pozycji. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Render\+Window \mbox{\hyperlink{class_game_a22a61b5ea27c609be8cf2724c33d7ae5}{m\+\_\+window}}
+\begin{DoxyCompactList}\small\item\em Okno gry SFML (tryb pełnoekranowy) \end{DoxyCompactList}\item 
+sf\+::\+Clock \mbox{\hyperlink{class_game_afa2b2cd71f1808971458e67a8540a83d}{m\+\_\+clock}}
+\begin{DoxyCompactList}\small\item\em Zegar do mierzenia delta\+Time między klatkami. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_player_base}{Player\+Base}} $>$ $>$ \mbox{\hyperlink{class_game_ad6bf981b76e1a85d1fb733a1be5239aa}{m\+\_\+players}}
+\begin{DoxyCompactList}\small\item\em Wektor graczy -\/ polimorfizm pozwala trzymać różne klasy postaci. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall}{Wall}} $>$ $>$ \mbox{\hyperlink{class_game_a6d9b554f87503de7df26b3a713ad44ad}{m\+\_\+walls}}
+\begin{DoxyCompactList}\small\item\em Wektor wszystkich ścian na planszy (brzegowe + postawione przez graczy) \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_wall_placer}{Wall\+Placer}} $>$ \mbox{\hyperlink{class_game_a45c7de5bb860f05975dbfd934721e3aa}{m\+\_\+wall\+Placer}}
+\begin{DoxyCompactList}\small\item\em Obiekt zarządzający fazą układania ścian (nullptr poza tą fazą) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}{Game\+State}} \mbox{\hyperlink{class_game_a373c26e06bea85c3d3be5fe027d2a5da}{m\+\_\+state}}
+\begin{DoxyCompactList}\small\item\em Aktualny stan gry. \end{DoxyCompactList}\item 
+sf\+::\+Font \mbox{\hyperlink{class_game_af5c5c39d0eabe68c3bfff3509900a489}{m\+\_\+font}}
+\begin{DoxyCompactList}\small\item\em Czcionka systemowa Arial do wyświetlania tekstu. \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{class_game_af12e82f289dba3b87fb525c95afac042}{m\+\_\+player\+Choices}}
+\begin{DoxyCompactList}\small\item\em Wybrane klasy postaci (0=\doxylink{class_warrior}{Warrior},1=\doxylink{class_mage}{Mage},2=\doxylink{class_archer}{Archer}) \end{DoxyCompactList}\item 
+std\+::vector$<$ bool $>$ \mbox{\hyperlink{class_game_a44caf8d348b4515874b75946da46a8d3}{m\+\_\+player\+Ready}}
+\begin{DoxyCompactList}\small\item\em Flagi gotowości graczy na ekranie wyboru. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{class_health_pack}{Health\+Pack}} $>$ \mbox{\hyperlink{class_game_a8e2c6389826a908cdeaf8b0a13b86876}{m\+\_\+health\+Packs}}
+\begin{DoxyCompactList}\small\item\em Aktywne apteczki na planszy. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_a32025133cb7fced2554613d5518204e5}{m\+\_\+health\+Pack\+Timer}}
+\begin{DoxyCompactList}\small\item\em Licznik czasu do spawnu apteczki. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_game_ae16302f7821c257b8408d933be3b1db4}{m\+\_\+health\+Pack\+Interval}}
+\begin{DoxyCompactList}\small\item\em Co ile sekund pojawia się apteczka. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Główna klasa gry zarządzająca całą logiką i renderowaniem. 
+
+Klasa \doxylink{class_game}{Game} implementuje wzorzec "{}\+Game Loop"{} i zarządza\+:
+\begin{DoxyItemize}
+\item Oknem aplikacji SFML
+\item Przejściami między stanami gry (Game\+State)
+\item Wektorem graczy (polimorfizm przez Player\+Base\texorpdfstring{$\ast$}{*})
+\item Wektorem ścian na planszy
+\item Fazą układania ścian (\doxylink{class_wall_placer}{Wall\+Placer})
+\item Wykrywaniem kolizji między graczami (check\+Combat)
+\item Renderowaniem wszystkich ekranów gry
+\end{DoxyItemize}
+
+Cykl życia stanu\+: Menu → Character\+Select → Wall\+Placement → Playing → Game\+Over → Character\+Select 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_game_ad59df6562a58a614fda24622d3715b65}\index{Game@{Game}!Game@{Game}}
+\index{Game@{Game}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Game()}{Game()}}
+{\footnotesize\ttfamily \label{class_game_ad59df6562a58a614fda24622d3715b65} 
+Game\+::\+Game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Konstruktor gry. 
+
+Inicjalizuje okno SFML w trybie pełnoekranowym, ładuje czcionkę systemową i tworzy domyślnych graczy. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_game_ad4b2332d1450948bcb468a519b23c126}\index{Game@{Game}!checkCombat@{checkCombat}}
+\index{checkCombat@{checkCombat}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{checkCombat()}{checkCombat()}}
+{\footnotesize\ttfamily \label{class_game_ad4b2332d1450948bcb468a519b23c126} 
+void Game\+::check\+Combat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sprawdza kolizje bojowe między graczami. 
+
+Dla każdej pary graczy sprawdza\+:
+\begin{DoxyItemize}
+\item Kolizję hitboxa ataku wręcz (\doxylink{class_warrior}{Warrior})
+\item Kolizje aktywnych pocisków z przeciwnikiem (\doxylink{class_mage}{Mage}, \doxylink{class_archer}{Archer}) Używa wektora m\+\_\+players co umożliwia obsługę dowolnej liczby graczy. 
+\end{DoxyItemize}\Hypertarget{class_game_a735d35cc04aef0e41f0a34a180b122ce}\index{Game@{Game}!createBorderWalls@{createBorderWalls}}
+\index{createBorderWalls@{createBorderWalls}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{createBorderWalls()}{createBorderWalls()}}
+{\footnotesize\ttfamily \label{class_game_a735d35cc04aef0e41f0a34a180b122ce} 
+void Game\+::create\+Border\+Walls (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Tworzy ściany dookoła areny. 
+
+Ściany brzegowe ograniczają pole walki i są tworzone przed fazą układania ścian przez graczy. Parametry areny muszą być identyczne jak w \doxylink{class_wall_placer}{Wall\+Placer}. \Hypertarget{class_game_a25de60c29b294d1cf9c1b6625fc5607b}\index{Game@{Game}!createPlayer@{createPlayer}}
+\index{createPlayer@{createPlayer}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{createPlayer()}{createPlayer()}}
+{\footnotesize\ttfamily \label{class_game_a25de60c29b294d1cf9c1b6625fc5607b} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_player_base}{Player\+Base}} $>$ Game\+::create\+Player (\begin{DoxyParamCaption}\item[{int}]{character\+Index}{, }\item[{float}]{startX}{, }\item[{float}]{startY}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{up\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{down\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{left\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{right\+Key}{, }\item[{sf\+::\+Keyboard\+::\+Key}]{attack\+Key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fabryka graczy -\/ tworzy obiekt odpowiedniej klasy postaci. 
+
+Używa polimorfizmu -\/ zwraca unique\+\_\+ptr$<$\+Player\+Base$>$ który wskazuje na \doxylink{class_warrior}{Warrior}, \doxylink{class_mage}{Mage} lub \doxylink{class_archer}{Archer} zależnie od wyboru. 
+\begin{DoxyParams}{Parameters}
+{\em character\+Index} & Indeks wybranej klasy (0=\doxylink{class_warrior}{Warrior}, 1=\doxylink{class_mage}{Mage}, 2=\doxylink{class_archer}{Archer}) \\
+\hline
+{\em startX} & Startowa pozycja X \\
+\hline
+{\em startY} & Startowa pozycja Y \\
+\hline
+{\em up\+Key} & Klawisz ruchu w górę \\
+\hline
+{\em down\+Key} & Klawisz ruchu w dół \\
+\hline
+{\em left\+Key} & Klawisz ruchu w lewo \\
+\hline
+{\em right\+Key} & Klawisz ruchu w prawo \\
+\hline
+{\em attack\+Key} & Klawisz ataku \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Wskaźnik do nowego obiektu gracza 
+\end{DoxyReturn}
+\Hypertarget{class_game_a79f698dda206dd7a9bed28b3f88bdc38}\index{Game@{Game}!processEvents@{processEvents}}
+\index{processEvents@{processEvents}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{processEvents()}{processEvents()}}
+{\footnotesize\ttfamily \label{class_game_a79f698dda206dd7a9bed28b3f88bdc38} 
+void Game\+::process\+Events (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Przetwarza zdarzenia systemu (klawiatura, zamknięcie okna) 
+
+Obsługuje różne zdarzenia zależnie od aktualnego stanu gry. Przekazuje wciśnięcia klawiszy ataku do graczy przez on\+Attack\+Key\+Pressed(). \Hypertarget{class_game_a15ddd769261d923827a3cdf41499c843}\index{Game@{Game}!render@{render}}
+\index{render@{render}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily \label{class_game_a15ddd769261d923827a3cdf41499c843} 
+void Game\+::render (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Renderuje aktualny stan gry. 
+
+Wybiera odpowiednią metodę renderowania na podstawie m\+\_\+state. \Hypertarget{class_game_acf9096c3f9cf50df02fd4c36aa7b882f}\index{Game@{Game}!renderCharacterSelect@{renderCharacterSelect}}
+\index{renderCharacterSelect@{renderCharacterSelect}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{renderCharacterSelect()}{renderCharacterSelect()}}
+{\footnotesize\ttfamily \label{class_game_acf9096c3f9cf50df02fd4c36aa7b882f} 
+void Game\+::render\+Character\+Select (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Renderuje ekran wyboru postaci. 
+
+Wyświetla karty postaci dla obu graczy z podglądem kolorów i statystyk. Podświetla aktualnie wybraną klasę. \Hypertarget{class_game_ad6b50e63ca681c1087167ca986f2e6ed}\index{Game@{Game}!renderGameOver@{renderGameOver}}
+\index{renderGameOver@{renderGameOver}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{renderGameOver()}{renderGameOver()}}
+{\footnotesize\ttfamily \label{class_game_ad6b50e63ca681c1087167ca986f2e6ed} 
+void Game\+::render\+Game\+Over (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Renderuje ekran końca gry. 
+
+Wyświetla półprzezroczyste tło i informację o zwycięzcy. Sprawdza stan HP obu graczy żeby ustalić wynik. \Hypertarget{class_game_a277e729a12bf9f5aa4e45457edb96d79}\index{Game@{Game}!renderMenu@{renderMenu}}
+\index{renderMenu@{renderMenu}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{renderMenu()}{renderMenu()}}
+{\footnotesize\ttfamily \label{class_game_a277e729a12bf9f5aa4e45457edb96d79} 
+void Game\+::render\+Menu (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Renderuje ekran głównego menu. 
+
+\Hypertarget{class_game_a47c726a80fd133c0a4f6b8fba56d8832}\index{Game@{Game}!resetGame@{resetGame}}
+\index{resetGame@{resetGame}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{resetGame()}{resetGame()}}
+{\footnotesize\ttfamily \label{class_game_a47c726a80fd133c0a4f6b8fba56d8832} 
+void Game\+::reset\+Game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Resetuje grę do stanu wyboru postaci. 
+
+Czyści wybory postaci, ściany i flagi gotowości graczy. Przechodzi do stanu Character\+Select. \Hypertarget{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa}\index{Game@{Game}!run@{run}}
+\index{run@{run}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily \label{class_game_a1ab78f5ed0d5ea879157357cf2fb2afa} 
+void Game\+::run (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Uruchamia główną pętlę gry. 
+
+Pętla działa dopóki okno jest otwarte. W każdej iteracji\+: mierzy delta\+Time, przetwarza zdarzenia, aktualizuje logikę i renderuje klatkę. \Hypertarget{class_game_a708f5f0640afc56e4d70d0b46f76655c}\index{Game@{Game}!spawnHealthPack@{spawnHealthPack}}
+\index{spawnHealthPack@{spawnHealthPack}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{spawnHealthPack()}{spawnHealthPack()}}
+{\footnotesize\ttfamily \label{class_game_a708f5f0640afc56e4d70d0b46f76655c} 
+void Game\+::spawn\+Health\+Pack (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Próbuje spawnnować nową apteczkę na losowej pozycji. 
+
+\Hypertarget{class_game_a419466336fad97182f5051e11f541636}\index{Game@{Game}!update@{update}}
+\index{update@{update}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily \label{class_game_a419466336fad97182f5051e11f541636} 
+void Game\+::update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Aktualizuje logikę gry. 
+
+Wywoływana tylko w stanie Playing. Aktualizuje graczy, sprawdza kolizje ze ścianami i wykrywa koniec gry. 
+\begin{DoxyParams}{Parameters}
+{\em delta\+Time} & Czas od ostatniej klatki w sekundach \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_game_aaf9068be39eabc83a0dfa034e82b6659}\index{Game@{Game}!updateHealthPacks@{updateHealthPacks}}
+\index{updateHealthPacks@{updateHealthPacks}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{updateHealthPacks()}{updateHealthPacks()}}
+{\footnotesize\ttfamily \label{class_game_aaf9068be39eabc83a0dfa034e82b6659} 
+void Game\+::update\+Health\+Packs (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Aktualizuje apteczki -\/ sprawdza kolizje z graczami. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_game_afa2b2cd71f1808971458e67a8540a83d}\index{Game@{Game}!m\_clock@{m\_clock}}
+\index{m\_clock@{m\_clock}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_clock}{m\_clock}}
+{\footnotesize\ttfamily \label{class_game_afa2b2cd71f1808971458e67a8540a83d} 
+sf\+::\+Clock Game\+::m\+\_\+clock\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Zegar do mierzenia delta\+Time między klatkami. 
+
+\Hypertarget{class_game_af5c5c39d0eabe68c3bfff3509900a489}\index{Game@{Game}!m\_font@{m\_font}}
+\index{m\_font@{m\_font}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_font}{m\_font}}
+{\footnotesize\ttfamily \label{class_game_af5c5c39d0eabe68c3bfff3509900a489} 
+sf\+::\+Font Game\+::m\+\_\+font\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Czcionka systemowa Arial do wyświetlania tekstu. 
+
+\Hypertarget{class_game_ae16302f7821c257b8408d933be3b1db4}\index{Game@{Game}!m\_healthPackInterval@{m\_healthPackInterval}}
+\index{m\_healthPackInterval@{m\_healthPackInterval}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_healthPackInterval}{m\_healthPackInterval}}
+{\footnotesize\ttfamily \label{class_game_ae16302f7821c257b8408d933be3b1db4} 
+float Game\+::m\+\_\+health\+Pack\+Interval\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Co ile sekund pojawia się apteczka. 
+
+\Hypertarget{class_game_a8e2c6389826a908cdeaf8b0a13b86876}\index{Game@{Game}!m\_healthPacks@{m\_healthPacks}}
+\index{m\_healthPacks@{m\_healthPacks}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_healthPacks}{m\_healthPacks}}
+{\footnotesize\ttfamily \label{class_game_a8e2c6389826a908cdeaf8b0a13b86876} 
+std\+::vector$<$\mbox{\hyperlink{class_health_pack}{Health\+Pack}}$>$ Game\+::m\+\_\+health\+Packs\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Aktywne apteczki na planszy. 
+
+\Hypertarget{class_game_a32025133cb7fced2554613d5518204e5}\index{Game@{Game}!m\_healthPackTimer@{m\_healthPackTimer}}
+\index{m\_healthPackTimer@{m\_healthPackTimer}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_healthPackTimer}{m\_healthPackTimer}}
+{\footnotesize\ttfamily \label{class_game_a32025133cb7fced2554613d5518204e5} 
+float Game\+::m\+\_\+health\+Pack\+Timer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Licznik czasu do spawnu apteczki. 
+
+\Hypertarget{class_game_af12e82f289dba3b87fb525c95afac042}\index{Game@{Game}!m\_playerChoices@{m\_playerChoices}}
+\index{m\_playerChoices@{m\_playerChoices}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_playerChoices}{m\_playerChoices}}
+{\footnotesize\ttfamily \label{class_game_af12e82f289dba3b87fb525c95afac042} 
+std\+::vector$<$int$>$ Game\+::m\+\_\+player\+Choices\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wybrane klasy postaci (0=\doxylink{class_warrior}{Warrior},1=\doxylink{class_mage}{Mage},2=\doxylink{class_archer}{Archer}) 
+
+\Hypertarget{class_game_a44caf8d348b4515874b75946da46a8d3}\index{Game@{Game}!m\_playerReady@{m\_playerReady}}
+\index{m\_playerReady@{m\_playerReady}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_playerReady}{m\_playerReady}}
+{\footnotesize\ttfamily \label{class_game_a44caf8d348b4515874b75946da46a8d3} 
+std\+::vector$<$bool$>$ Game\+::m\+\_\+player\+Ready\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Flagi gotowości graczy na ekranie wyboru. 
+
+\Hypertarget{class_game_ad6bf981b76e1a85d1fb733a1be5239aa}\index{Game@{Game}!m\_players@{m\_players}}
+\index{m\_players@{m\_players}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_players}{m\_players}}
+{\footnotesize\ttfamily \label{class_game_ad6bf981b76e1a85d1fb733a1be5239aa} 
+std\+::vector$<$std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{class_player_base}{Player\+Base}}$>$ $>$ Game\+::m\+\_\+players\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wektor graczy -\/ polimorfizm pozwala trzymać różne klasy postaci. 
+
+\Hypertarget{class_game_a373c26e06bea85c3d3be5fe027d2a5da}\index{Game@{Game}!m\_state@{m\_state}}
+\index{m\_state@{m\_state}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_state}{m\_state}}
+{\footnotesize\ttfamily \label{class_game_a373c26e06bea85c3d3be5fe027d2a5da} 
+\mbox{\hyperlink{_game_state_8h_a7899b65f1ea0f655e4bbf8d2a5714285}{Game\+State}} Game\+::m\+\_\+state\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Aktualny stan gry. 
+
+\Hypertarget{class_game_a45c7de5bb860f05975dbfd934721e3aa}\index{Game@{Game}!m\_wallPlacer@{m\_wallPlacer}}
+\index{m\_wallPlacer@{m\_wallPlacer}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_wallPlacer}{m\_wallPlacer}}
+{\footnotesize\ttfamily \label{class_game_a45c7de5bb860f05975dbfd934721e3aa} 
+std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{class_wall_placer}{Wall\+Placer}}$>$ Game\+::m\+\_\+wall\+Placer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Obiekt zarządzający fazą układania ścian (nullptr poza tą fazą) 
+
+\Hypertarget{class_game_a6d9b554f87503de7df26b3a713ad44ad}\index{Game@{Game}!m\_walls@{m\_walls}}
+\index{m\_walls@{m\_walls}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_walls}{m\_walls}}
+{\footnotesize\ttfamily \label{class_game_a6d9b554f87503de7df26b3a713ad44ad} 
+std\+::vector$<$std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{class_wall}{Wall}}$>$ $>$ Game\+::m\+\_\+walls\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Wektor wszystkich ścian na planszy (brzegowe + postawione przez graczy) 
+
+\Hypertarget{class_game_a22a61b5ea27c609be8cf2724c33d7ae5}\index{Game@{Game}!m\_window@{m\_window}}
+\index{m\_window@{m\_window}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{m\_window}{m\_window}}
+{\footnotesize\ttfamily \label{class_game_a22a61b5ea27c609be8cf2724c33d7ae5} 
+sf\+::\+Render\+Window Game\+::m\+\_\+window\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Okno gry SFML (tryb pełnoekranowy) 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{_game_8h}{Game.\+h}}\item 
+src/\mbox{\hyperlink{_game_8cpp}{Game.\+cpp}}\end{DoxyCompactItemize}
